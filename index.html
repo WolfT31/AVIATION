@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Elite - Secure Access</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap');
+
+        /* ===== SHARED VARIABLES ===== */
+        :root {
+            --neon-primary: #00f2ff;
+            --neon-secondary: #ff003c;
+            --accent: #00ff88;
+            --secondary: #6366f1;
+            --whatsapp: #25D366;
+            --bg-deep: #020205;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --bg-dark: #050a1d;
+            --card-bg: #101931;
+            --input-bg: #162447;
+            --accent-blue: #2ed9ff;
+            --neon-green: #00e676;
+            --grad-purple: linear-gradient(90deg, #9b21f3, #f51993);
+            --grad-orange: linear-gradient(90deg, #ff6b00, #ffb800);
+            --success-green: #00c853;
+            --modal-bg: #0a1633;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== BACKGROUND ORBS ===== */
+        .orb-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%) rotate(0deg); }
+            to { transform: translate(20%, 30%) rotate(360deg); }
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            width: 90%;
+            max-width: 420px;
+            padding: 40px 0;
+            z-index: 2;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== HOME UI STYLES ===== */
+        .header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 900;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .stat-label {
+            opacity: 0.6; 
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .stat-val {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--neon-primary);
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+        }
+
+        .sites-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-wrapper {
+            position: relative;
+            padding: 2px;
+            overflow: hidden;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .btn-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-primary));
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .site-btn {
+            position: relative;
+            width: 100%;
+            padding: 20px 10px;
+            background: rgba(17, 17, 17, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1;
+            border-radius: 11px;
+            text-align: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            color: white;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .site-btn:active {
+            transform: scale(0.92);
+            filter: brightness(1.5);
+        }
+
+        .lock-icon {
+            font-size: 0.9rem;
+            opacity: 0.35;
+            animation: subtleBreath 3s infinite ease-in-out;
+        }
+
+        @keyframes subtleBreath {
+            0%, 100% { opacity: 0.35; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* ===== PIN MODAL STYLES ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .pin-card {
+            background: #111827;
+            border: 3px solid #06b6d4;
+            border-radius: 25px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4),
+                        inset 0 0 30px rgba(6, 182, 212, 0.1);
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .pin-card::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #34B334, #00ffff, #06b6d4);
+            border-radius: 25px;
+            z-index: -1;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); }
+            100% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.8); }
+        }
+
+        .pin-card h1 {
+            color: #F5F5DC;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+        }
+
+        .pin-card p {
+            color: #9ca3af;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .input-container {
+            margin-bottom: 25px;
+        }
+
+        .pin-input {
+            width: 100%;
+            padding: 18px 25px;
+            background: #1f2937;
+            border: 2px solid #374151;
+            border-radius: 15px;
+            color: #ffffff;
+            font-size: 1.3rem;
+            text-align: center;
+            letter-spacing: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .pin-input:focus {
+            border-color: #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .pin-input.error {
+            border-color: #ef4444;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #06b6d4, #d946ef);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #2887C8, #3C1421);
+            border: none;
+            border-radius: 50px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.4);
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* ===== MAIN UI STYLES ===== */
+        .main-ui {
+            animation: launchMain 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes launchMain {
+            0% { opacity: 0; transform: scale(0.9) translateY(30px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .title {
+            color: var(--accent-blue);
+            font-size: 28px;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #6b7a99;
+            font-size: 13px;
+            margin-bottom: 30px;
+        }
+
+        .aqua-label {
+            align-self: flex-start;
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .custom-select {
+            position: relative;
+            width: 100%;
+            margin-bottom: 30px;
+            z-index: 100;
+        }
+
+        .select-selected {
+            background: var(--grad-purple);
+            border-radius: 12px;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .select-items {
+            position: absolute;
+            background-color: #1a0b2e;
+            top: 105%;
+            left: 0;
+            right: 0;
+            border-radius: 15px;
+            border: 1px solid #9b21f3;
+            display: none;
+            overflow: hidden;
+            z-index: 200;
+        }
+
+        .select-items div {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .select-items div:hover {
+            background: rgba(155, 33, 243, 0.3);
+        }
+
+        .show-menu {
+            display: block !important;
+        }
+
+        .mode-container {
+            background: rgba(22, 36, 71, 0.5);
+            border: 1px solid #1e2d4d;
+            border-radius: 50px;
+            padding: 12px 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .mode-text {
+            font-size: 13px;
+            font-weight: bold;
+            color: #6b7a99;
+        }
+
+        .mode-text.active {
+            color: var(--accent-blue);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #162447;
+            transition: .4s;
+            border-radius: 34px;
+            border: 1px solid #1e2d4d;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #00bcd4;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+        .card {
+            width: 100%;
+            border: 1px solid #1e2d4d;
+            background: rgba(16, 25, 49, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+            padding: 2px;
+            border-radius: 12px;
+            background: #1e2d4d;
+            overflow: hidden;
+        }
+
+        .input-wrapper.active::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-green));
+            left: -25%;
+            top: -25%;
+            animation: rotate 4s linear infinite;
+        }
+
+        .input-wrapper input {
+            position: relative;
+            width: 100%;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            color: white;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .calc-btn {
+            width: 100%;
+            background: var(--grad-orange);
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .calc-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #resultArea {
+            width: 100%;
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .signal-card {
+            background: var(--success-green);
+            border-radius: 30px;
+            padding: 25px 20px;
+            position: relative;
+            margin-bottom: 25px;
+            animation: float 3s ease-in-out infinite, greenGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes greenGlow {
+            from { box-shadow: 0 0 10px rgba(0, 200, 83, 0.4); }
+            to { box-shadow: 0 0 35px rgba(0, 200, 83, 0.9); }
+        }
+
+        .hot-round {
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            background: #ff3d00;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 0 15px #ff3d00;
+            animation: redPulse 1.5s infinite;
+        }
+
+        @keyframes redPulse {
+            0%, 100% { box-shadow: 0 0 5px #ff3d00; }
+            50% { box-shadow: 0 0 25px #ff3d00; }
+        }
+
+        .predicted-value {
+            font-size: 56px;
+            font-weight: 900;
+            margin: 5px 0;
+        }
+
+        .progress-bar {
+            width: 85%;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin: 15px auto;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            width: 91%;
+        }
+
+        .confidence-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .history-container {
+            border: 2px dashed var(--neon-green);
+            background: rgba(0, 230, 118, 0.05);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .history-title {
+            color: var(--accent-blue);
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #historyList {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .history-row {
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            border-radius: 12px;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hist-val {
+            font-weight: bold;
+            color: var(--neon-green);
+            font-size: 16px;
+        }
+
+        .hist-time {
+            font-size: 11px;
+            opacity: 0.6;
+        }
+
+        .how-to-footer {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        .how-to-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .info-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .info-modal .modal-card {
+            background: var(--modal-bg);
+            border: 1px solid #1e2d4d;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 360px;
+            padding: 25px;
+            text-align: left;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-step {
+            font-weight: bold;
+            margin-top: 20px;
+            display: block;
+            font-size: 16px;
+        }
+
+        .modal-text {
+            font-size: 14px;
+            color: #cbd5e0;
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+
+        .smart-text {
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+
+        .manual-text {
+            color: #ffa726;
+            font-weight: bold;
+        }
+
+        .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+        }
+
+        .tips-container {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 25px;
+        }
+
+        .got-it-btn {
+            width: 100%;
+            background: #00bcd4;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 25px;
+            cursor: pointer;
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+
+        #toastMessage {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff3d00;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(255, 61, 0, 0.4);
+            display: none;
+            z-index: 3000;
+            animation: fadeInOut 3s forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -20px); }
+            10% { opacity: 1; transform: translate(-50%, 0); }
+            90% { opacity: 1; transform: translate(-50%, 0); }
+            100% { opacity: 0; transform: translate(-50%, -20px); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="toastMessage"></div>
+
+<div class="orb-container">
+    <div class="orb" style="width: 300px; height: 300px; top: 10%; left: -5%;"></div>
+    <div class="orb" style="width: 250px; height: 250px; bottom: 10%; right: -5%; animation-delay: -5s; background: var(--secondary);"></div>
+</div>
+
+<!-- HOME UI SECTION -->
+<div id="homeSection" class="section container">
+    <header class="header">
+        <h1>Select Platform</h1>
+        <div style="font-size: 0.6rem; color: var(--accent); margin-top: 5px; opacity: 0.8; font-weight: 700;">ENCRYPTED SESSION V12.0.5</div>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card" style="animation-delay: 0s;">
+            <div class="stat-label">RELIABILITY</div>
+            <div class="stat-val">97%</div>
+        </div>
+        <div class="stat-card" style="animation-delay: -2s;">
+            <div class="stat-label">MULTIPLIER</div>
+            <div class="stat-val">12.5x</div>
+        </div>
+    </div>
+
+    <div class="sites-grid" id="sitesGrid"></div>
+</div>
+
+<!-- PIN MODAL -->
+<div id="pinModal" class="modal-overlay">
+    <div class="pin-card">
+        <h1>Enter PIN</h1>
+        <p>LOGIN TO ACCESS CONTENT</p>
+
+        <div class="input-container">
+            <input type="password" class="pin-input" id="pinInput" placeholder="****" maxlength="4" inputmode="numeric">
+        </div>
+
+        <button class="submit-btn" id="submitPinBtn" onclick="verifyPin()">SUBMIT</button>
+        <button class="back-btn" onclick="closePinModal()">
+            <i class="fas fa-arrow-left"></i>
+            BACK
+        </button>
+
+        <div class="error-message" id="pinError"></div>
+    </div>
+</div>
+
+<!-- MAIN UI SECTION -->
+<div id="mainSection" class="section container main-ui hidden">
+    <div class="main-nav">
+        <div class="nav-back-btn" onclick="goBackToHome()">
+            <i class="fas fa-arrow-left"></i> BACK
+        </div>
+        <div style="font-size: 12px; color: var(--accent);">🔒 SECURE MODE</div>
+    </div>
+
+    <h1 class="title">AVIATOR PREDICTOR</h1>
+    <p class="subtitle">3-Round Analysis System</p>
+
+    <div class="aqua-label">🎯 Choose Your Betting Site ✨</div>
+    <div class="custom-select">
+        <div class="select-selected" id="mainSelectedBox">--choose Site--</div>
+        <div class="select-items" id="mainMenuItems">
+            <div>BETWAY</div><div>SPORTPESA</div><div>BETIKA</div><div>MERIDIANBET</div>
+            <div>BETPAWA</div><div>PARIMATCH</div><div>1XBET</div><div>BET365</div>
+        </div>
+    </div>
+
+    <div class="mode-container">
+        <span class="mode-text" id="mLabel">Manual Mode</span>
+        <label class="switch">
+            <input type="checkbox" id="modeToggle" checked onchange="updateModeLabels()">
+            <span class="slider"></span>
+        </label>
+        <span class="mode-text active" id="sLabel">Smart Mode</span>
+    </div>
+
+    <div class="aqua-label">📊 Enter the Last 3 Rounds ✨</div>
+    <div class="card">
+        <label style="color:var(--accent-blue); font-size: 12px; margin-bottom: 5px; display: block;">Round 1 (Oldest)</label>
+        <div class="input-wrapper"><input type="number" step="0.01" placeholder="e.g 1.45x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
+        <label style="color:var(--accent-blue); font-size: 12px; margin-bottom: 5px; display: block;">Round 2 (second)</label>
+        <div class="input-wrapper"><input type="number" step="0.01" placeholder="e.g 2.10x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
+        <label style="color:var(--accent-blue); font-size: 12px; margin-bottom: 5px; display: block;">Round 3 (Latest)</label>
+        <div class="input-wrapper"><input type="number" step="0.01" placeholder="e.g 1.85x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
+    </div>
+
+    <button class="calc-btn" id="generateBtn" onclick="generateSignal()">GENERATE SIGNAL</button>
+
+    <div id="resultArea">
+        <div class="signal-card">
+            <div class="hot-round">🔥 HOT ROUND!</div>
+            <div style="font-size: 12px; opacity: 0.9;">💡 PREDICTED SIGNAL</div>
+            <div class="predicted-value" id="mainSignal">0.00x</div>
+            <div style="font-size: 14px; font-weight: bold;">Accuracy: 91%</div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <div class="confidence-btn">
+                <span style="height:12px; width:12px; background:#2e7d32; border-radius:50%;"></span>
+                HIGH CONFIDENCE
+            </div>
+            <div style="margin-top:12px; font-size:13px;">📍 <span id="siteName">Betway</span></div>
+        </div>
+
+        <div class="history-container">
+            <div class="history-title">📊 Signal History</div>
+            <div id="mainHistoryList"></div>
+        </div>
+    </div>
+
+    <div class="how-to-footer">
+        <div class="how-to-btn" onclick="toggleInfoModal(true)">
+            <span style="background:rgba(255,255,255,0.2); border-radius:4px; padding:0 6px; font-size:12px;">i</span>How To Use
+        </div>
+    </div>
+</div>
+
+<!-- INFO MODAL -->
+<div id="infoModal" class="info-modal">
+    <div class="modal-card">
+        <div class="modal-header">📘 How To Use</div>
+        <b class="modal-step">1. Choose Your Company:</b>
+        <p class="modal-text">Select your betting platform from the dropdown list</p>
+        <b class="modal-step">2. Enter Last 3 Rounds:</b>
+        <p class="modal-text">Fill in the crash results from the last 3 rounds (oldest to newest).</p>
+        <b class="modal-step">3. Choose Your Mode:</b>
+        <p class="modal-text"><span class="smart-text">Smart Mode:</span> Uses 3-round analysis</p>
+        <p class="modal-text"><span class="manual-text">Manual Mode:</span> Random predictions</p>
+        <b class="modal-step">4. Calculate Signal:</b>
+        <p class="modal-text">Click to generate your prediction.</p>
+        <b class="modal-step">5. Risk Level Guide:</b>
+        <div class="risk-item"><span class="dot" style="background:#4caf50;"></span> <span style="color:#4caf50; font-weight:bold;">HIGH CONFIDENCE</span> (2.00x+)</div>
+        <div class="risk-item"><span class="dot" style="background:#ffc107;"></span> <span style="color:#ffc107; font-weight:bold;">MEDIUM</span> (1.50x-2.00x)</div>
+        <div class="risk-item"><span class="dot" style="background:#f44336;"></span> <span style="color:#f44336; font-weight:bold;">LOW RISK</span> (Below 1.50x)</div>
+        <div class="tips-container">
+            <p class="modal-text" style="color:#ffd54f; margin:0;">💡 <b>Tips:</b> Use HIGH CONFIDENCE signals for best results.</p>
+        </div>
+        <button class="got-it-btn" onclick="toggleInfoModal(false)">Got It!</button>
+    </div>
+</div>
+
+<script>
+    // ===== CONFIGURATION =====
+    const SITES = [
+        { name: 'BETWAY', color: '#1a1a1a' },
+        { name: 'SPORTPESA', color: '#0047AB' },
+        { name: 'BETIKA', color: '#FFD700' },
+        { name: 'MERIDIANBET', color: '#DC143C' },
+        { name: 'BETPAWA', color: '#228B22' },
+        { name: 'PARIMATCH', color: '#FFD700' },
+        { name: '1XBET', color: '#0066CC' },
+        { name: 'BET365', color: '#006400' }
+    ];
+
+    // ===== STATE VARIABLES =====
+    let selectedSite = '';
+    let roundCounter = 0;
+    let lastGeneratedTime = 0;
+    let lockoutEndTime = 0;
+    let roundTimestamps = [];
+
+    // ===== INITIALIZATION =====
+    document.addEventListener('DOMContentLoaded', function() {
+        // Render home site grid
+        renderHomeSites();
+        
+        // Render main site dropdown
+        renderMainDropdown();
+        
+        // Auto-focus PIN input when modal opens
+        document.getElementById('pinInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') verifyPin();
+        });
+
+        // Auto-submit when 4 digits entered
+        document.getElementById('pinInput').addEventListener('input', function() {
+            if (this.value.length === 4) {
+                verifyPin();
+            }
+        });
+
+        // Check for saved PIN and auto-login
+        checkSavedPin();
+    });
+
+    // ===== HOME UI FUNCTIONS =====
+    function renderHomeSites() {
+        const grid = document.getElementById('sitesGrid');
+        grid.innerHTML = '';
+        
+        SITES.forEach(site => {
+            const wrap = document.createElement('div');
+            wrap.className = 'btn-wrapper';
+            
+            const btn = document.createElement('div');
+            btn.className = 'site-btn';
+            
+            btn.style.background = site.color === '#1a1a1a' ? 'rgba(20,20,20,0.9)' : site.color;
+            
+            const isYellow = (site.color === '#FFD700');
+            const mainColor = isYellow ? '#000' : '#fff';
+            btn.style.color = mainColor;
+
+            btn.innerHTML = `<span class="lock-icon" style="color: ${mainColor};">🔒</span> <span>${site.name}</span>`;
+            
+            btn.onclick = function() {
+                selectedSite = site.name;
+                openPinModal();
+            };
+            
+            wrap.appendChild(btn);
+            grid.appendChild(wrap);
+        });
+    }
+
+    function renderMainDropdown() {
+        const menuItems = document.getElementById('mainMenuItems');
+        menuItems.innerHTML = '';
+        
+        SITES.forEach(site => {
+            const div = document.createElement('div');
+            div.textContent = site.name;
+            div.onclick = function() {
+                document.getElementById('mainSelectedBox').innerText = this.innerText;
+                menuItems.classList.remove('show-menu');
+            };
+            menuItems.appendChild(div);
+        });
+
+        // Toggle dropdown
+        document.getElementById('mainSelectedBox').onclick = function(e) {
+            e.stopPropagation();
+            document.getElementById('mainMenuItems').classList.toggle('show-menu');
+        };
+    }
+
+    // ===== PIN MODAL FUNCTIONS =====
+    function openPinModal() {
+        document.getElementById('pinModal').style.display = 'flex';
+        document.getElementById('pinInput').value = '';
+        document.getElementById('pinError').style.display = 'none';
+        document.getElementById('pinInput').focus();
+    }
+
+    function closePinModal() {
+        document.getElementById('pinModal').style.display = 'none';
+    }
+
+    async function verifyPin() {
+        const pin = document.getElementById('pinInput').value;
+        const submitBtn = document.getElementById('submitPinBtn');
+        const errorEl = document.getElementById('pinError');
+
+        if (pin.length !== 4) {
+            showError('Please enter 4 digits');
+            return;
+        }
+
+        // Disable button during verification
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'VERIFYING...';
+
+        try {
+            // Create form data
+            const formData = new FormData();
+            formData.append('pin', pin);
+
+            // Send to pin.php
+            const response = await fetch('pin.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Success - save PIN and show Main UI
+                localStorage.setItem('aviator_pin', pin);
+                localStorage.setItem('aviator_verified', 'true');
+                
+                // Close modal
+                closePinModal();
+                
+                // Show Main UI with animation
+                showMainUI();
+                
+                // Show success message
+                showToast('Access Granted! 🎉');
+            } else {
+                // Show error
+                showError(data.message || 'Invalid PIN');
+                document.getElementById('pinInput').classList.add('error');
+                setTimeout(() => {
+                    document.getElementById('pinInput').classList.remove('error');
+                }, 500);
+                document.getElementById('pinInput').value = '';
+            }
+        } catch (error) {
+            showError('Connection error. Try again.');
+            console.error('PIN verification error:', error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SUBMIT';
+        }
+    }
+
+    function showError(message) {
+        const errorEl = document.getElementById('pinError');
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+        setTimeout(() => {
+            errorEl.style.display = 'none';
+        }, 3000);
+    }
+
+    // ===== AUTO-LOGIN CHECK =====
+    async function checkSavedPin() {
+        const savedPin = localStorage.getItem('aviator_pin');
+        const verified = localStorage.getItem('aviator_verified');
+
+        if (savedPin && verified === 'true') {
+            // Verify with server
+            try {
+                const formData = new FormData();
+                formData.append('pin', savedPin);
+
+                const response = await fetch('pin.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Auto-login successful
+                    showMainUI();
+                } else {
+                    // Clear invalid saved PIN
+                    localStorage.removeItem('aviator_pin');
+                    localStorage.removeItem('aviator_verified');
+                    showHomeUI();
+                }
+            } catch (error) {
+                // If server error, still show home for safety
+                showHomeUI();
+            }
+        } else {
+            showHomeUI();
+        }
+    }
+
+    // ===== UI NAVIGATION =====
+    function showMainUI() {
+        document.getElementById('homeSection').classList.add('hidden');
+        document.getElementById('mainSection').classList.remove('hidden');
+        
+        // Reset main UI state
+        document.getElementById('mainSelectedBox').innerText = '--choose Site--';
+        document.querySelectorAll('#mainSection input[type="number"]').forEach(input => input.value = '');
+        document.getElementById('resultArea').style.display = 'none';
+        
+        // Trigger animation by removing and adding class
+        document.getElementById('mainSection').style.animation = 'none';
+        document.getElementById('mainSection').offsetHeight; // Trigger reflow
+        document.getElementById('mainSection').style.animation = 'launchMain 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    }
+
+    function showHomeUI() {
+        document.getElementById('homeSection').classList.remove('hidden');
+        document.getElementById('mainSection').classList.add('hidden');
+    }
+
+    function goBackToHome() {
+        if (confirm('Return to site selection?')) {
+            showHomeUI();
+        }
+    }
+
+    // ===== MAIN UI FUNCTIONS =====
+    function updateModeLabels() {
+        const check = document.getElementById('modeToggle').checked;
+        document.getElementById('sLabel').classList.toggle('active', check);
+        document.getElementById('mLabel').classList.toggle('active', !check);
+    }
+
+    function addNeon(el) {
+        el.parentElement.classList.add('active');
+    }
+
+    function removeNeon(el) {
+        el.parentElement.classList.remove('active');
+    }
+
+    function toggleInfoModal(show) {
+        document.getElementById('infoModal').style.display = show ? 'flex' : 'none';
+    }
+
+    function showToast(text) {
+        const toast = document.getElementById('toastMessage');
+        toast.textContent = text;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+
+    function generateSignal() {
+        const site = document.getElementById('mainSelectedBox').innerText;
+        if (site.includes('--')) {
+            alert('Please select a site!');
+            return;
+        }
+
+        const now = Date.now();
+
+        if (now < lockoutEndTime) {
+            const minRem = Math.ceil((lockoutEndTime - now) / 60000);
+            showToast(`Play again after ${minRem} minutes`);
+            return;
+        }
+
+        const secElapsed = (now - lastGeneratedTime) / 1000;
+        if (secElapsed < 10) {
+            const secRem = Math.ceil(10 - secElapsed);
+            showToast(`Wait for ${secRem} seconds to continue`);
+            return;
+        }
+
+        roundTimestamps = roundTimestamps.filter(t => (now - t) < 120000);
+        if (roundTimestamps.length >= 5) {
+            lockoutEndTime = now + (5 * 60000);
+            showToast("Play again after 5 minutes");
+            return;
+        }
+
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "ANALYZING...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            const finalNow = Date.now();
+            lastGeneratedTime = finalNow;
+            roundTimestamps.push(finalNow);
+
+            roundCounter++;
+            const signal = (Math.random() * (4.0 - 1.2) + 1.2).toFixed(2) + "x";
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            document.getElementById('mainSignal').innerText = signal;
+            document.getElementById('siteName').innerText = site;
+            
+            const historyList = document.getElementById('mainHistoryList');
+            const newRow = document.createElement('div');
+            newRow.className = 'history-row';
+            newRow.innerHTML = `<span style="font-size: 13px; font-weight: 500;">Round #${roundCounter}</span><span class="hist-val">${signal}</span><span class="hist-time">${time}</span>`;
+
+            historyList.prepend(newRow);
+            document.getElementById('resultArea').style.display = "block";
+            btn.innerText = "🧠 GENERATE SIGNAL";
+            btn.disabled = false;
+        }, 1200);
+    }
+
+    // ===== GLOBAL CLICK HANDLER =====
+    window.onclick = function(e) {
+        // Close dropdowns when clicking outside
+        if (!e.target.closest('.custom-select')) {
+            document.getElementById('mainMenuItems').classList.remove('show-menu');
+        }
+    };
+</script>
+
+<!-- Include pin.php - make sure this file exists on your server -->
+<!-- The JavaScript above will POST to pin.php with form data: pin=1234 -->
+</body>
+</html>
