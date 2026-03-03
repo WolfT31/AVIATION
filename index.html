@@ -28,6 +28,29 @@
             --success-green: #00c853;
             --modal-bg: #0a1633;
         }
+        
+        /* ===== DISABLE TEXT SELECTION ===== */
+body, .container, .header, .stat-card, .site-btn, 
+.pin-card, .pin-input, .signal-card, .history-row,
+.modal-card, .custom-select, .card, .input-wrapper,
+.btn-wrapper, .how-to-btn, .aqua-label, .title, .subtitle {
+    -webkit-user-select: none;  /* Safari */
+    -moz-user-select: none;     /* Firefox */
+    -ms-user-select: none;      /* IE/Edge */
+    user-select: none;          /* Standard */
+    -webkit-touch-callout: none; /* iOS Safari */
+}
+
+/* Allow selection ONLY on input fields where users need to type */
+input[type="number"], 
+input[type="password"], 
+.pin-input {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+    -webkit-touch-callout: default !important;
+}
 
         * {
             margin: 0;
@@ -268,7 +291,7 @@
             left: -3px;
             right: -3px;
             bottom: -3px;
-            background: linear-gradient(45deg, #34B334, #00ffff, #06b6d4);
+            background: linear-gradient(45deg, #111827, #1f2937, #111827);
             border-radius: 25px;
             z-index: -1;
             animation: glow 2s ease-in-out infinite alternate;
@@ -298,35 +321,57 @@
             margin-bottom: 25px;
         }
 
-        .pin-input {
-            width: 100%;
-            padding: 18px 25px;
-            background: #1f2937;
-            border: 2px solid #374151;
-            border-radius: 15px;
-            color: #ffffff;
-            font-size: 1.3rem;
-            text-align: center;
-            letter-spacing: 8px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
+      /* ===== NEON ROTATING BORDER FOR PIN INPUT ===== */
+.pin-input-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 18px;
+    padding: 3px;
+    overflow: hidden;
+}
 
-        .pin-input:focus {
-            border-color: #06b6d4;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-        }
+.pin-input-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        #00ff88
+    );
+    animation: rotateBorder 4s linear infinite;
+}
 
-        .pin-input.error {
-            border-color: #ef4444;
-            animation: shake 0.5s ease;
-        }
+@keyframes rotateBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
+.pin-input {
+    position: relative;
+    width: 100%;
+    padding: 18px 25px;
+    background: #1f2937;
+    border: none;
+    border-radius: 15px;
+    color: #ffffff;
+    font-size: 1.3rem;
+    text-align: center;
+    letter-spacing: 8px;
+    outline: none;
+    z-index: 1;
+}
+
+/* Error state */
+.pin-input-wrapper.error::before {
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        #ff3d00
+    );
+}
 
         .submit-btn {
             width: 100%;
@@ -574,6 +619,21 @@
             z-index: 2;
         }
 
+        /* Shake animation for empty fields */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .input-wrapper.shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .input-wrapper.shake input {
+            border: 2px solid #ff3d00;
+        }
+
         .calc-btn {
             width: 100%;
             background: var(--grad-orange);
@@ -636,20 +696,23 @@
             margin: 5px 0;
         }
 
-        .progress-bar {
-            width: 85%;
-            height: 8px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-            margin: 15px auto;
-            overflow: hidden;
-        }
+       .progress-bar {
+    width: 85%;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+    margin: 15px auto;
+    overflow: hidden;
+    display: block !important;
+    visibility: visible !important;
+}
 
-        .progress-fill {
-            height: 100%;
-            background: white;
-            width: 91%;
-        }
+.progress-fill {
+    height: 100%;
+    background: white;
+    width: 91%;
+    display: block !important;
+}
 
         .confidence-btn {
             background: rgba(255,255,255,0.2);
@@ -680,7 +743,7 @@
             gap: 5px;
         }
 
-        #historyList {
+        #mainHistoryList {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -874,12 +937,118 @@
             90% { opacity: 1; transform: translate(-50%, 0); }
             100% { opacity: 0; transform: translate(-50%, -20px); }
         }
+        
+        .input-wrapper.error {
+    border: 2px solid #ff3d00;
+    animation: shake 0.5s ease;
+}
+
+.input-wrapper.error::before {
+    background: conic-gradient(transparent, transparent, transparent, #ff3d00) !important;
+}
+
+/* ===== GLASS NOTIFICATION ===== */
+.glass-notification {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 4px solid #ff3d00;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 61, 0, 0.2);
+    z-index: 5000;
+    display: none;
+    align-items: center;
+    gap: 15px;
+    letter-spacing: 0.5px;
+    animation: slideDown 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    min-width: 300px;
+    justify-content: space-between;
+}
+
+@keyframes slideDown {
+    0% { opacity: 0; transform: translate(-50%, -20px); }
+    100% { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.glass-notification i {
+    color: #ff3d00;
+    font-size: 20px;
+    filter: drop-shadow(0 0 8px rgba(255, 61, 0, 0.5));
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.notification-close {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.2s;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.notification-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Floating animation */
+@keyframes floatSlow {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Apply to your PIN dialog container */
+.pin-modal-content {
+    animation: floatSlow 4s ease-in-out infinite;
+}
+
+
     </style>
 </head>
-<body>
+<body 
+    onselectstart="return false" 
+    oncopy="return false" 
+    oncut="return false" 
+    oncontextmenu="return false"
+>
 
 <div id="toastMessage"></div>
-
+<!-- Glass Notification (Option 1) -->
+<div id="styledNotification" class="glass-notification">
+    <div class="notification-content">
+        <i class="fas fa-exclamation-triangle"></i>
+        <span id="notificationMessage">Please select a site!</span>
+    </div>
+    <div class="notification-close" onclick="hideStyledNotification()">
+        <i class="fas fa-times"></i>
+    </div>
+</div>
 <div class="orb-container">
     <div class="orb" style="width: 300px; height: 300px; top: 10%; left: -5%;"></div>
     <div class="orb" style="width: 250px; height: 250px; bottom: 10%; right: -5%; animation-delay: -5s; background: var(--secondary);"></div>
@@ -913,9 +1082,10 @@
         <p>LOGIN TO ACCESS CONTENT</p>
 
         <div class="input-container">
-            <input type="password" class="pin-input" id="pinInput" placeholder="****" maxlength="4" inputmode="numeric">
-        </div>
-
+    <div class="pin-input-wrapper" id="pinWrapper">
+        <input type="password" class="pin-input" id="pinInput" placeholder="* * * *" maxlength="4" inputmode="numeric">
+    </div>
+</div>
         <button class="submit-btn" id="submitPinBtn" onclick="verifyPin()">SUBMIT</button>
         <button class="back-btn" onclick="closePinModal()">
             <i class="fas fa-arrow-left"></i>
@@ -928,24 +1098,23 @@
 
 <!-- MAIN UI SECTION -->
 <div id="mainSection" class="section container main-ui hidden">
-    <div class="main-nav">
-        <div class="nav-back-btn" onclick="goBackToHome()">
-            <i class="fas fa-arrow-left"></i> BACK
-        </div>
-        <div style="font-size: 12px; color: var(--accent);">🔒 SECURE MODE</div>
-    </div>
+    
 
+    <div style="text-align: center; width: 100%;">
     <h1 class="title">AVIATOR PREDICTOR</h1>
     <p class="subtitle">3-Round Analysis System</p>
+</div>
 
-    <div class="aqua-label">🎯 Choose Your Betting Site ✨</div>
-    <div class="custom-select">
+    <div class="aqua-label">🎯 Choose Your Betting Site </div>
+    <div style="text-align: center; width: 100%;">
+    <div class="custom-select" style="margin: 0 auto;">
         <div class="select-selected" id="mainSelectedBox">--choose Site--</div>
         <div class="select-items" id="mainMenuItems">
-            <div>BETWAY</div><div>SPORTPESA</div><div>BETIKA</div><div>MERIDIANBET</div>
-            <div>BETPAWA</div><div>PARIMATCH</div><div>1XBET</div><div>BET365</div>
+            <div>BETWAY</div><div>SPORTPESA</div><div>BETIKA</div><div>SPORTYBET</div>
+            <div>BETPAWA</div><div>PARIMATCH</div><div>1XBET</div><div>1WIN</div>
         </div>
     </div>
+</div><br>
 
     <div class="mode-container">
         <span class="mode-text" id="mLabel">Manual Mode</span>
@@ -956,31 +1125,33 @@
         <span class="mode-text active" id="sLabel">Smart Mode</span>
     </div>
 
-    <div class="aqua-label">📊 Enter the Last 3 Rounds ✨</div>
+    <div class="aqua-label">📊 Enter the Last 3 Rounds</div>
     <div class="card">
         <label style="color:var(--accent-blue); font-size: 12px; margin-bottom: 5px; display: block;">Round 1 (Oldest)</label>
-        <div class="input-wrapper"><input type="number" step="0.01" placeholder="e.g 1.45x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
+        <div class="input-wrapper" id="round1Wrapper"><input type="number" step="0.01" placeholder="e.g 1.45x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
         <label style="color:var(--accent-blue); font-size: 12px; margin-bottom: 5px; display: block;">Round 2 (second)</label>
-        <div class="input-wrapper"><input type="number" step="0.01" placeholder="e.g 2.10x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
+        <div class="input-wrapper" id="round2Wrapper"><input type="number" step="0.01" placeholder="e.g 2.10x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
         <label style="color:var(--accent-blue); font-size: 12px; margin-bottom: 5px; display: block;">Round 3 (Latest)</label>
-        <div class="input-wrapper"><input type="number" step="0.01" placeholder="e.g 1.85x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
+        <div class="input-wrapper" id="round3Wrapper"><input type="number" step="0.01" placeholder="e.g 1.85x" onfocus="addNeon(this)" onblur="removeNeon(this)"></div>
     </div>
 
     <button class="calc-btn" id="generateBtn" onclick="generateSignal()">GENERATE SIGNAL</button>
 
     <div id="resultArea">
-        <div class="signal-card">
-            <div class="hot-round">🔥 HOT ROUND!</div>
-            <div style="font-size: 12px; opacity: 0.9;">💡 PREDICTED SIGNAL</div>
-            <div class="predicted-value" id="mainSignal">0.00x</div>
-            <div style="font-size: 14px; font-weight: bold;">Accuracy: 91%</div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
-            <div class="confidence-btn">
-                <span style="height:12px; width:12px; background:#2e7d32; border-radius:50%;"></span>
-                HIGH CONFIDENCE
-            </div>
-            <div style="margin-top:12px; font-size:13px;">📍 <span id="siteName">Betway</span></div>
-        </div>
+        <div class="signal-card" style="text-align: center;">
+    <div class="hot-round">🔥 HOT ROUND!</div>
+    <div style="font-size: 12px; opacity: 0.9; text-align: center;">💡 PREDICTED SIGNAL</div>
+    <div class="predicted-value" id="mainSignal" style="text-align: center;">0.00x</div>
+    <div style="font-size: 14px; font-weight: bold; text-align: center;" id="accuracyDisplay">Accuracy: 91%</div>
+    <div class="progress-bar" style="margin: 15px auto;">
+    <div class="progress-fill" style="width: 91%;"></div>
+</div>
+    <div class="confidence-btn" style="margin: 0 auto; display: inline-flex; justify-content: center;">
+        <span style="height:12px; width:12px; background:#2e7d32; border-radius:50%;"></span>
+        HIGH CONFIDENCE
+    </div>
+    <div style="margin-top:12px; font-size:13px; text-align: center;">📍 <span id="siteName">Betway</span></div>
+</div>
 
         <div class="history-container">
             <div class="history-title">📊 Signal History</div>
@@ -1031,6 +1202,9 @@
         { name: '1XBET', color: '#0066CC' },
         { name: 'BET365', color: '#006400' }
     ];
+
+    // ===== HARDCODED PIN (CHANGE THIS TO YOUR DESIRED PIN) =====
+    const CORRECT_PIN = "1516"; // Change this to your preferred PIN
 
     // ===== STATE VARIABLES =====
     let selectedSite = '';
@@ -1116,118 +1290,110 @@
 
     // ===== PIN MODAL FUNCTIONS =====
     function openPinModal() {
-        document.getElementById('pinModal').style.display = 'flex';
-        document.getElementById('pinInput').value = '';
-        document.getElementById('pinError').style.display = 'none';
-        document.getElementById('pinInput').focus();
-    }
+    const input = document.getElementById('pinInput');
+    const wrapper = document.getElementById('pinWrapper');
+    const errorEl = document.getElementById('pinError');
+    const modal = document.getElementById('pinModal');
 
-    function closePinModal() {
-        document.getElementById('pinModal').style.display = 'none';
-    }
+    // Reset state
+    input.value = '';
+    wrapper.classList.remove('error');
+    errorEl.style.display = 'none';
+    
+    // Show modal
+    modal.style.display = 'flex';
+    
+    // Small delay to ensure modal is visible before focusing
+    setTimeout(() => {
+        input.focus();
+    }, 100);
+}
 
-    async function verifyPin() {
-        const pin = document.getElementById('pinInput').value;
-        const submitBtn = document.getElementById('submitPinBtn');
-        const errorEl = document.getElementById('pinError');
+function closePinModal() {
+    document.getElementById('pinModal').style.display = 'none';
+}
 
-        if (pin.length !== 4) {
-            showError('Please enter 4 digits');
-            return;
-        }
+function verifyPin() {
+    const input = document.getElementById('pinInput');
+    const wrapper = document.getElementById('pinWrapper');
+    const submitBtn = document.getElementById('submitPinBtn');
+    const errorEl = document.getElementById('pinError');
 
-        // Disable button during verification
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'VERIFYING...';
+    const pin = input.value;
 
-        try {
-            // Create form data
-            const formData = new FormData();
-            formData.append('pin', pin);
-
-            // Send to pin.php
-            const response = await fetch('pin.php', {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                // Success - save PIN and show Main UI
-                localStorage.setItem('aviator_pin', pin);
-                localStorage.setItem('aviator_verified', 'true');
-                
-                // Close modal
-                closePinModal();
-                
-                // Show Main UI with animation
-                showMainUI();
-                
-                // Show success message
-                showToast('Access Granted! 🎉');
-            } else {
-                // Show error
-                showError(data.message || 'Invalid PIN');
-                document.getElementById('pinInput').classList.add('error');
-                setTimeout(() => {
-                    document.getElementById('pinInput').classList.remove('error');
-                }, 500);
-                document.getElementById('pinInput').value = '';
-            }
-        } catch (error) {
-            showError('Connection error. Try again.');
-            console.error('PIN verification error:', error);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'SUBMIT';
-        }
-    }
-
-    function showError(message) {
-        const errorEl = document.getElementById('pinError');
-        errorEl.textContent = message;
-        errorEl.style.display = 'block';
+    if (pin.length !== 4) {
+        showError('Please enter 4 digits');
+        
+        // Add shake effect
+        wrapper.classList.add('error');
         setTimeout(() => {
-            errorEl.style.display = 'none';
-        }, 3000);
+            wrapper.classList.remove('error');
+        }, 500);
+        
+        input.focus();
+        return;
     }
 
-    // ===== AUTO-LOGIN CHECK =====
-    async function checkSavedPin() {
-        const savedPin = localStorage.getItem('aviator_pin');
-        const verified = localStorage.getItem('aviator_verified');
+    // Disable button during verification
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'VERIFYING...';
 
-        if (savedPin && verified === 'true') {
-            // Verify with server
-            try {
-                const formData = new FormData();
-                formData.append('pin', savedPin);
+    // Simulated delay
+    setTimeout(() => {
 
-                const response = await fetch('pin.php', {
-                    method: 'POST',
-                    body: formData
-                });
+        if (pin === CORRECT_PIN) {
 
-                const data = await response.json();
+            // Save verification
+            localStorage.setItem('aviator_pin', pin);
+            localStorage.setItem('aviator_verified', 'true');
 
-                if (data.success) {
-                    // Auto-login successful
-                    showMainUI();
-                } else {
-                    // Clear invalid saved PIN
-                    localStorage.removeItem('aviator_pin');
-                    localStorage.removeItem('aviator_verified');
-                    showHomeUI();
-                }
-            } catch (error) {
-                // If server error, still show home for safety
-                showHomeUI();
-            }
+            closePinModal();
+            showMainUI();
+            showStyledNotification('Access Granted! 🎉', 'fa-check-circle', '#00c853');
+
         } else {
-            showHomeUI();
+
+            // ❌ WRONG PIN
+            showError('Invalid PIN. Try Again.');
+
+            // Add red neon border with shake
+            wrapper.classList.add('error');
+
+            // Remove it after 500ms
+            setTimeout(() => {
+                wrapper.classList.remove('error');
+            }, 500);
+
+            input.value = '';
+            input.focus();
         }
-    }
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'SUBMIT';
+
+    }, 800);
+}
+
+function showError(message) {
+    const errorEl = document.getElementById('pinError');
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+
+    setTimeout(() => {
+        errorEl.style.display = 'none';
+    }, 3000);
+}
+
+   
+    // ===== AUTO-LOGIN CHECK - MODIFIED TO ALWAYS SHOW PIN =====
+function checkSavedPin() {
+    // Always show Home UI with PIN modal ready
+    showHomeUI();
+    
+    // Clear any saved PIN data to force PIN entry every time
+    localStorage.removeItem('aviator_pin');
+    localStorage.removeItem('aviator_verified');
+}
 
     // ===== UI NAVIGATION =====
     function showMainUI() {
@@ -1285,62 +1451,114 @@
     }
 
     function generateSignal() {
-        const site = document.getElementById('mainSelectedBox').innerText;
-        if (site.includes('--')) {
-            alert('Please select a site!');
-            return;
-        }
+    const site = document.getElementById('mainSelectedBox').innerText;
+    if (site.includes('--')) {
+    showStyledNotification('select site!', 'fa-globe');
+    return;
+}
 
-        const now = Date.now();
-
-        if (now < lockoutEndTime) {
-            const minRem = Math.ceil((lockoutEndTime - now) / 60000);
-            showToast(`Play again after ${minRem} minutes`);
-            return;
-        }
-
-        const secElapsed = (now - lastGeneratedTime) / 1000;
-        if (secElapsed < 10) {
-            const secRem = Math.ceil(10 - secElapsed);
-            showToast(`Wait for ${secRem} seconds to continue`);
-            return;
-        }
-
-        roundTimestamps = roundTimestamps.filter(t => (now - t) < 120000);
-        if (roundTimestamps.length >= 5) {
-            lockoutEndTime = now + (5 * 60000);
-            showToast("Play again after 5 minutes");
-            return;
-        }
-
-        const btn = document.getElementById('generateBtn');
-        btn.innerText = "ANALYZING...";
-        btn.disabled = true;
-
-        setTimeout(() => {
-            const finalNow = Date.now();
-            lastGeneratedTime = finalNow;
-            roundTimestamps.push(finalNow);
-
-            roundCounter++;
-            const signal = (Math.random() * (4.0 - 1.2) + 1.2).toFixed(2) + "x";
-            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-            document.getElementById('mainSignal').innerText = signal;
-            document.getElementById('siteName').innerText = site;
+    // Get all round inputs and their wrappers
+    const roundInputs = [
+        { input: document.querySelectorAll('#mainSection .card input[type="number"]')[0], wrapper: document.getElementById('round1Wrapper') },
+        { input: document.querySelectorAll('#mainSection .card input[type="number"]')[1], wrapper: document.getElementById('round2Wrapper') },
+        { input: document.querySelectorAll('#mainSection .card input[type="number"]')[2], wrapper: document.getElementById('round3Wrapper') }
+    ];
+    
+    let allFilled = true;
+    let roundValues = [];
+    
+    roundInputs.forEach(item => {
+        if (!item.input.value || item.input.value.trim() === '') {
+            allFilled = false;
+            // Add shake animation to wrapper
+            item.wrapper.classList.add('shake');
             
-            const historyList = document.getElementById('mainHistoryList');
-            const newRow = document.createElement('div');
-            newRow.className = 'history-row';
-            newRow.innerHTML = `<span style="font-size: 13px; font-weight: 500;">Round #${roundCounter}</span><span class="hist-val">${signal}</span><span class="hist-time">${time}</span>`;
+            // Remove shake after animation completes
+            setTimeout(() => {
+                item.wrapper.classList.remove('shake');
+            }, 500);
+        } else {
+            roundValues.push(parseFloat(item.input.value));
+        }
+    });
 
-            historyList.prepend(newRow);
-            document.getElementById('resultArea').style.display = "block";
-            btn.innerText = "🧠 GENERATE SIGNAL";
-            btn.disabled = false;
-        }, 1200);
+    if (!allFilled) {
+        showStyledNotification('Enter all 3 rounds', 'fa-dice', '#ff9900');
+        return;
     }
 
+    const now = Date.now();
+
+    if (now < lockoutEndTime) {
+        const minRem = Math.ceil((lockoutEndTime - now) / 60000);
+        showToast(`Continue in ${minRem} minutes`);
+        return;
+    }
+
+    const secElapsed = (now - lastGeneratedTime) / 1000;
+    if (secElapsed < 10) {
+        const secRem = Math.ceil(10 - secElapsed);
+        showToast(`Wait in ${secRem} seconds`);
+        return;
+    }
+
+    roundTimestamps = roundTimestamps.filter(t => (now - t) < 120000);
+    if (roundTimestamps.length >= 5) {
+    lockoutEndTime = now + (5 * 60000);
+    
+    // Play sound from assets
+    const audio = new Audio('file:///android_asset/alert.mp3');
+    audio.play();
+    
+    showToast("Continue in 5 minutes");
+    return;
+}
+
+    const btn = document.getElementById('generateBtn');
+    btn.innerText = "ANALYZING...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        const finalNow = Date.now();
+        lastGeneratedTime = finalNow;
+        roundTimestamps.push(finalNow);
+
+        roundCounter++;
+        
+        // Generate random signal between 1.2 and 4.0
+        const signal = (Math.random() * (4.0 - 1.2) + 1.2).toFixed(2);
+        
+        // Generate random accuracy between 75% and 93%
+        const accuracy = Math.floor(Math.random() * (93 - 75 + 1)) + 75;
+        
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+        document.getElementById('mainSignal').innerText = signal + "x";
+        document.getElementById('siteName').innerText = site;
+        
+        // Update accuracy display
+        const accuracyElement = document.getElementById('accuracyDisplay');
+        if (accuracyElement) {
+            accuracyElement.innerText = `Accuracy: ${accuracy}%`;
+        }
+        
+        // Update progress bar width based on accuracy
+        const progressFill = document.querySelector('#resultArea .progress-fill');
+        if (progressFill) {
+            progressFill.style.width = accuracy + '%';
+        }
+        
+        const historyList = document.getElementById('mainHistoryList');
+        const newRow = document.createElement('div');
+        newRow.className = 'history-row';
+        newRow.innerHTML = `<span style="font-size: 13px; font-weight: 500;">Round #${roundCounter}</span><span class="hist-val">${signal}x</span><span class="hist-time">${time}</span>`;
+
+        historyList.prepend(newRow);
+        document.getElementById('resultArea').style.display = "block";
+        btn.innerText = "🧠 GENERATE SIGNAL";
+        btn.disabled = false;
+    }, 1200);
+}
     // ===== GLOBAL CLICK HANDLER =====
     window.onclick = function(e) {
         // Close dropdowns when clicking outside
@@ -1348,9 +1566,86 @@
             document.getElementById('mainMenuItems').classList.remove('show-menu');
         }
     };
+    
+    // ===== STYLED NOTIFICATION FUNCTIONS =====
+function showStyledNotification(message, icon = 'fa-exclamation-triangle', color = '#ff3d00') {
+    const notification = document.getElementById('styledNotification');
+    const messageSpan = document.getElementById('notificationMessage');
+    const iconEl = notification.querySelector('i:first-child');
+    
+    // Update content
+    messageSpan.innerText = message;
+    iconEl.className = 'fas ' + icon;
+    
+ 
+// The glass notification uses its own CSS, so we don't need to set background here
+// Just keep the border-left color consistent
+if (message.includes('site')) {
+    notification.style.borderLeftColor = '#ff3d00';
+} else if (message.includes('rounds')) {
+    notification.style.borderLeftColor = '#ff9900';
+} else if (message.includes('Access Granted')) {
+    notification.style.borderLeftColor = '#00c853';
+} else {
+    notification.style.borderLeftColor = '#ff3d00';
+}
+    
+    // Show notification
+    notification.style.display = 'flex';
+    
+    // Auto hide after 3 seconds
+    setTimeout(() => {
+        hideStyledNotification();
+    }, 3000);
+}
+
+function hideStyledNotification() {
+    document.getElementById('styledNotification').style.display = 'none';
+}
+
+// ===== DISABLE COPY/CUT/RIGHT-CLICK =====
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Prevent context menu (right-click)
+    document.addEventListener('contextmenu', function(e) {
+        // Allow right-click on input fields only
+        if (!e.target.matches('input[type="number"], input[type="password"], .pin-input')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevent copy events
+    document.addEventListener('copy', function(e) {
+        if (!e.target.matches('input[type="number"], input[type="password"], .pin-input')) {
+            e.preventDefault();
+            showStyledNotification('Copying disabled 🔒', 'fa-lock');
+        }
+    }, { passive: false });
+
+    // Prevent cut events
+    document.addEventListener('cut', function(e) {
+        if (!e.target.matches('input[type="number"], input[type="password"], .pin-input')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevent drag start on non-input elements
+    document.addEventListener('dragstart', function(e) {
+        if (!e.target.matches('input')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevent text selection via keyboard (Ctrl+A) on non-inputs
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+            if (!e.target.matches('input[type="number"], input[type="password"], .pin-input')) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
+});
 </script>
 
-<!-- Include pin.php - make sure this file exists on your server -->
-<!-- The JavaScript above will POST to pin.php with form data: pin=1234 -->
 </body>
 </html>
