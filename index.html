@@ -1028,7 +1028,287 @@ input[type="password"],
     animation: floatSlow 4s ease-in-out infinite;
 }
 
+/* ===== GLASSMORPHISM BUTTONS ===== */
+.footer-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    padding-bottom: 40px;
+}
 
+.glass-btn {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 12px 25px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Home button specific gradient */
+.home-btn {
+    background: linear-gradient(135deg, rgba(46, 217, 255, 0.1), rgba(0, 102, 255, 0.1));
+    border-left: 2px solid var(--accent-blue);
+}
+
+/* How to use button specific gradient */
+.how-to-btn {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(255, 87, 34, 0.1));
+    border-left: 2px solid #ffa726;
+}
+
+.glass-btn i {
+    font-size: 16px;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.home-btn i {
+    color: var(--accent-blue);
+}
+
+.how-to-btn i {
+    color: #ffa726;
+}
+
+.glass-btn:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.glass-btn:active {
+    transform: translateY(0);
+}
+
+/* Shine effect */
+.glass-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.glass-btn:hover::before {
+    left: 100%;
+}
+
+/* Pulse animation for home button */
+@keyframes softPulse {
+    0% {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        box-shadow: 0 8px 32px rgba(46, 217, 255, 0.2);
+    }
+    100% {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.home-btn {
+    animation: softPulse 3s infinite ease-in-out;
+}
+
+/* ===== GLASSMORPHISM CONFIRMATION MODAL ===== */
+.confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    padding: 20px;
+    box-sizing: border-box;
+    animation: fadeIn 0.3s ease;
+}
+
+.confirm-card {
+    background: rgba(16, 25, 49, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: 35px 30px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 
+                0 0 0 1px rgba(46, 217, 255, 0.2),
+                inset 0 0 30px rgba(46, 217, 255, 0.1);
+    animation: slideUp 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.confirm-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        var(--accent-blue)
+    );
+    animation: rotateBorder 6s linear infinite;
+    opacity: 0.3;
+}
+
+.confirm-card::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: rgba(16, 25, 49, 0.95);
+    border-radius: 28px;
+    z-index: -1;
+}
+
+.confirm-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(46, 217, 255, 0.2), rgba(46, 217, 255, 0.05));
+    border: 2px solid rgba(46, 217, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    position: relative;
+    animation: pulseIcon 2s infinite ease-in-out;
+}
+
+.confirm-icon i {
+    font-size: 30px;
+    color: var(--accent-blue);
+    filter: drop-shadow(0 0 15px rgba(46, 217, 255, 0.5));
+}
+
+@keyframes pulseIcon {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(46, 217, 255, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px 10px rgba(46, 217, 255, 0.2);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(46, 217, 255, 0);
+    }
+}
+
+.confirm-title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(46, 217, 255, 0.3);
+    letter-spacing: 1px;
+}
+
+.confirm-message {
+    color: #a0aec0;
+    font-size: 15px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.confirm-btn {
+    flex: 1;
+    padding: 15px 0;
+    border: none;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    backdrop-filter: blur(5px);
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.proceed-btn {
+    background: linear-gradient(135deg, #00bcd4, #d946ef);
+    border: none;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 188, 212, 0.3);
+}
+
+.proceed-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 188, 212, 0.4);
+}
+
+.cancel-btn:active, .proceed-btn:active {
+    transform: translateY(0);
+}
+
+.confirm-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.confirm-btn:hover::before {
+    left: 100%;
+}
     </style>
 </head>
 <body 
@@ -1037,6 +1317,26 @@ input[type="password"],
     oncut="return false" 
     oncontextmenu="return false"
 >
+<!-- CONFIRMATION MODAL -->
+<div id="confirmModal" class="confirm-modal">
+    <div class="confirm-card">
+        <div class="confirm-icon">
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
+        <h2 class="confirm-title">Return to Home?</h2>
+        <p class="confirm-message">You'll be redirected to the site selection screen.</p>
+        <div class="confirm-buttons">
+            <button class="confirm-btn cancel-btn" onclick="closeConfirmModal()">
+                <i class="fas fa-times"></i>
+                CANCEL
+            </button>
+            <button class="confirm-btn proceed-btn" onclick="proceedToHome()">
+                <i class="fas fa-check"></i>
+                PROCEED
+            </button>
+        </div>
+    </div>
+</div>
 
 <div id="toastMessage"></div>
 <!-- Glass Notification (Option 1) -->
@@ -1159,10 +1459,15 @@ input[type="password"],
         </div>
     </div>
 
-    <div class="how-to-footer">
-        <div class="how-to-btn" onclick="toggleInfoModal(true)">
-            <span style="background:rgba(255,255,255,0.2); border-radius:4px; padding:0 6px; font-size:12px;">i</span>How To Use
-        </div>
+  
+<div class="footer-buttons">
+    <div class="glass-btn home-btn" onclick="goBackToHome()">
+        <i class="fas fa-home"></i>
+        <span>HOME</span>
+    </div>
+    <div class="glass-btn how-to-btn" onclick="toggleInfoModal(true)">
+        <i class="fas fa-question-circle"></i>
+        <span>HOW TO USE</span>
     </div>
 </div>
 
@@ -1194,13 +1499,13 @@ input[type="password"],
     // ===== CONFIGURATION =====
     const SITES = [
         { name: 'BETWAY', color: '#1a1a1a' },
-        { name: 'SPORTPESA', color: '#0047AB' },
-        { name: 'BETIKA', color: '#FFD700' },
-        { name: 'MERIDIANBET', color: '#DC143C' },
+        { name: 'SPORTPESA', color: '#003A6C' },
+        { name: 'BETIKA', color: '#431C53' },
+        { name: '1WIN', color: '#6B4423' },
         { name: 'BETPAWA', color: '#228B22' },
-        { name: 'PARIMATCH', color: '#FFD700' },
-        { name: '1XBET', color: '#0066CC' },
-        { name: 'BET365', color: '#006400' }
+        { name: 'PARIMATCH', color: '#1a1a1a' },
+        { name: '1XBET', color: '#003A6C' },
+        { name: 'SPORTYBET', color: '#660000' }
     ];
 
     // ===== HARDCODED PIN (CHANGE THIS TO YOUR DESIRED PIN) =====
@@ -1293,6 +1598,7 @@ input[type="password"],
     const input = document.getElementById('pinInput');
     const wrapper = document.getElementById('pinWrapper');
     const errorEl = document.getElementById('pinError');
+    const submitBtn = document.getElementById('submitPinBtn');
     const modal = document.getElementById('pinModal');
 
     // Reset state
@@ -1300,12 +1606,57 @@ input[type="password"],
     wrapper.classList.remove('error');
     errorEl.style.display = 'none';
     
+    // Check for existing lockout
+    const lockoutUntil = localStorage.getItem('pin_lockout_until');
+    if (lockoutUntil && Date.now() < parseInt(lockoutUntil)) {
+        // Disable input and button
+        input.disabled = true;
+        submitBtn.disabled = true;
+        wrapper.style.opacity = '0.5';
+        
+        // Show countdown timer
+        const errorEl = document.getElementById('pinError');
+        errorEl.style.display = 'block';
+        
+        // Update countdown every second
+        const countdownInterval = setInterval(function() {
+            const now = Date.now();
+            const remaining = parseInt(lockoutUntil) - now;
+            
+            if (remaining <= 0) {
+                clearInterval(countdownInterval);
+                input.disabled = false;
+                submitBtn.disabled = false;
+                wrapper.style.opacity = '1';
+                errorEl.style.display = 'none';
+                localStorage.removeItem('pin_attempts');
+                showStyledNotification('You can try again now', 'fa-clock', '#00bcd4');
+            } else {
+                const minutes = Math.floor(remaining / 60000);
+                const seconds = Math.floor((remaining % 60000) / 1000);
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                errorEl.textContent = `⏳ Try again in ${timeString}`;
+            }
+        }, 1000);
+        
+        
+    } else {
+        // No lockout, ensure input is enabled
+        input.disabled = false;
+        submitBtn.disabled = false;
+        wrapper.style.opacity = '1';
+        localStorage.removeItem('pin_lockout_until');
+        localStorage.removeItem('pin_attempts');
+    }
+    
     // Show modal
     modal.style.display = 'flex';
     
     // Small delay to ensure modal is visible before focusing
     setTimeout(() => {
-        input.focus();
+        if (!input.disabled) {
+            input.focus();
+        }
     }, 100);
 }
 
@@ -1319,12 +1670,18 @@ function verifyPin() {
     const submitBtn = document.getElementById('submitPinBtn');
     const errorEl = document.getElementById('pinError');
 
+    // Check if user is in lockout period
+const lockoutUntil = localStorage.getItem('pin_lockout_until');
+if (lockoutUntil && Date.now() < parseInt(lockoutUntil)) {
+    // Just show the existing countdown from openPinModal and exit
+    showError(`⏳ Locked. Please wait...`);
+    return;
+}
     const pin = input.value;
 
     if (pin.length !== 4) {
         showError('Please enter 4 digits');
         
-        // Add shake effect
         wrapper.classList.add('error');
         setTimeout(() => {
             wrapper.classList.remove('error');
@@ -1342,7 +1699,10 @@ function verifyPin() {
     setTimeout(() => {
 
         if (pin === CORRECT_PIN) {
-
+            // Clear any existing lockout on successful login
+            localStorage.removeItem('pin_lockout_until');
+            localStorage.removeItem('pin_attempts');
+            
             // Save verification
             localStorage.setItem('aviator_pin', pin);
             localStorage.setItem('aviator_verified', 'true');
@@ -1352,17 +1712,40 @@ function verifyPin() {
             showStyledNotification('Access Granted! 🎉', 'fa-check-circle', '#00c853');
 
         } else {
-
-            // ❌ WRONG PIN
-            showError('Invalid PIN. Try Again.');
-
-            // Add red neon border with shake
-            wrapper.classList.add('error');
-
-            // Remove it after 500ms
-            setTimeout(() => {
-                wrapper.classList.remove('error');
-            }, 500);
+            // Track failed attempts
+            let attempts = parseInt(localStorage.getItem('pin_attempts') || '0');
+            attempts++;
+            localStorage.setItem('pin_attempts', attempts.toString());
+            
+            // If 3 failed attempts, lock for 5 minutes
+            if (attempts >= 2) {
+                const lockoutTime = Date.now() + (5 * 60 * 1000); // 5 minutes from now
+                localStorage.setItem('pin_lockout_until', lockoutTime.toString());
+                
+                showError('Too many failed attempts. Locked for 5 minutes!');
+                
+                // Disable input and button
+                input.disabled = true;
+                submitBtn.disabled = true;
+                wrapper.style.opacity = '0.5';
+                
+                // Auto-enable after 5 minutes
+                setTimeout(() => {
+                    input.disabled = false;
+                    submitBtn.disabled = false;
+                    wrapper.style.opacity = '1';
+                    localStorage.removeItem('pin_attempts');
+                    showStyledNotification('You can try again now', 'fa-clock', '#00bcd4');
+                }, 5 * 60 * 1000);
+                
+            } else {
+                showError(`Wrong PIN. ${2 - attempts} attempt remaining.`);
+                
+                wrapper.classList.add('error');
+                setTimeout(() => {
+                    wrapper.classList.remove('error');
+                }, 500);
+            }
 
             input.value = '';
             input.focus();
@@ -1417,10 +1800,18 @@ function checkSavedPin() {
     }
 
     function goBackToHome() {
-        if (confirm('Return to site selection?')) {
-            showHomeUI();
-        }
-    }
+    // Show custom confirmation modal
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function closeConfirmModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+}
+
+function proceedToHome() {
+    closeConfirmModal();
+    showHomeUI();
+}
 
     // ===== MAIN UI FUNCTIONS =====
     function updateModeLabels() {
