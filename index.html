@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <title>Aviator Elite - Secure Access</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -2168,6 +2168,40 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!e.target.matches('input[type="number"], input[type="password"], .pin-input-field')) {
                 e.preventDefault();
             }
+        }
+    }, { passive: false });
+});
+
+    // ===== PREVENT ZOOMING =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Prevent pinch zoom gesture
+    document.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevent double-tap zoom
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) {
+            e.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, { passive: false });
+
+    // Prevent Ctrl + and Ctrl - zoom (for desktop browsers)
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '_' || e.key === '0')) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    // Prevent mouse wheel zoom when Ctrl is pressed
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey) {
+            e.preventDefault();
         }
     }, { passive: false });
 });
