@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aviator Elite - Secure Access</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -1432,6 +1433,279 @@ input[type="password"],
         opacity: 0;
     }
 }
+
+/* ===== PROFESSIONAL LOADING ANIMATION STYLES ===== */
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.loading-container .bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://i.supaimg.com/3c11f922-48d4-4ec5-8de9-39ed62c35878.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: brightness(0.7) saturate(1.05);
+  transform: scale(1.02);
+  transition: filter 0.6s ease-out;
+  animation: bgSlowZoom 3s ease-out;
+}
+
+.loading-container .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(1px);
+  z-index: 1;
+}
+
+.loading-container .loader-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+  max-width: 90%;
+  width: 500px;
+  background: rgba(20, 22, 32, 0.65);
+  backdrop-filter: blur(12px);
+  border-radius: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 0 0.5px rgba(255, 255, 255, 0.1) inset;
+  animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.loading-container .brand {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+  background: linear-gradient(135deg, #FFFFFF, #D9D9FF);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.loading-container .spinner-wrapper {
+  margin: 1.5rem 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-container .professional-spinner {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.loading-container .professional-spinner .ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #ffffff;
+  border-right-color: rgba(255, 255, 255, 0.6);
+  animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.loading-container .professional-spinner .ring:nth-child(2) {
+  width: 68px;
+  height: 68px;
+  top: 6px;
+  left: 6px;
+  border-top-color: #c084fc;
+  border-right-color: rgba(192, 132, 252, 0.7);
+  animation: spin 1.5s reverse infinite;
+}
+
+.loading-container .professional-spinner .ring:nth-child(3) {
+  width: 56px;
+  height: 56px;
+  top: 12px;
+  left: 12px;
+  border-top-color: #3b82f6;
+  border-left-color: rgba(59, 130, 246, 0.5);
+  animation: spin 1s linear infinite;
+}
+
+.loading-container .pulse-core {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  animation: pulseGlow 1.4s infinite alternate;
+}
+
+.loading-container .loading-text {
+  margin-top: 1.8rem;
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.loading-container .loading-text span {
+  display: inline-block;
+  animation: wave 1.2s infinite ease;
+  animation-delay: calc(0.1s * var(--i, 0));
+}
+
+.loading-container .dots {
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.loading-container .dots span {
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  margin: 0 2px;
+  opacity: 0.6;
+  animation: blinkDot 1.2s infinite alternate;
+}
+
+.loading-container .dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-container .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+.loading-container .progress-wrapper {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.loading-container .progress-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  height: 4px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.loading-container .progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ffffff, #a78bfa, #3b82f6);
+  border-radius: 100px;
+  transition: width 0.25s linear;
+  box-shadow: 0 0 8px rgba(167, 139, 250, 0.6);
+}
+
+.loading-container .percentage {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 12px;
+  border-radius: 40px;
+  color: #e2e8ff;
+}
+
+.loading-container .footer-note {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  width: fit-content;
+  margin: 0 auto;
+  padding: 6px 18px;
+  border-radius: 60px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.8); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); box-shadow: 0 0 22px rgba(255, 255, 255, 0.8); }
+}
+
+@keyframes fadeSlideUp {
+  0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateY(0px); opacity: 0.6; }
+  50% { transform: translateY(-3px); opacity: 1; }
+}
+
+@keyframes blinkDot {
+  0% { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes bgSlowZoom {
+  0% { transform: scale(1.05); filter: brightness(0.6); }
+  100% { transform: scale(1.02); filter: brightness(0.7) saturate(1.05); }
+}
+
+@keyframes btnFadeInUp {
+  0% { opacity: 0; transform: translateY(25px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+#continueBtn:hover {
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(1.03);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+#continueBtn:active {
+  transform: scale(0.98);
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+#continueScreen {
+  animation: slowZoom 2.5s ease-out;
+}
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
     </style>
 </head>
 <body 
@@ -1467,6 +1741,61 @@ input[type="password"],
         </div>
     </div>
 </div>
+
+<!-- PROFESSIONAL LOADING SCREEN -->
+<div id="professionalLoadingScreen" class="loading-container" style="display: none;">
+  <div class="bg-image"></div>
+  <div class="overlay"></div>
+
+  <div class="loader-content">
+    <div class="brand">✦Aviation Server✦</div>
+
+    <div class="spinner-wrapper">
+      <div class="professional-spinner">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="pulse-core"></div>
+      </div>
+    </div>
+
+    <div class="loading-text">
+      <span style="--i:0">L</span>
+      <span style="--i:1">O</span>
+      <span style="--i:2">A</span>
+      <span style="--i:3">D</span>
+      <span style="--i:4">I</span>
+      <span style="--i:5">N</span>
+      <span style="--i:6">G</span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="percentage" id="percentageLabel">0%</div>
+    </div>
+  </div>
+  <div class="footer-note">spribe aviation association</div>
+</div>
+
+<!-- AUTO-CONTINUE SCREEN (no button, auto-proceeds after delay) -->
+<div id="continueScreen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background-image: url('https://i.supaimg.com/be837360-ccdb-48b7-ae54-a236339e35a6.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; align-items: center; justify-content: center;">
+  
+  <!-- Optional: Add a subtle "Loading Complete" text or just keep it clean -->
+  <div style="position: absolute; bottom: 15%; left: 0; right: 0; text-align: center; color: rgba(255,255,255,0.8); font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; animation: fadeInUp 0.5s ease;">
+    <span style="background: rgba(0,0,0,0.4); padding: 8px 20px; border-radius: 30px; backdrop-filter: blur(10px);">
+      ✓ Ready
+    </span>
+  </div>
+</div>
+
+
 
 <div id="toastMessage"></div>
 <!-- Glass Notification (Option 1) -->
@@ -1513,14 +1842,11 @@ input[type="password"],
 
         <div class="input-container">
             <div class="pin-input-wrapper" id="pinWrapper">
-                <input type="password" class="pin-input-field" id="pinInput" placeholder="••••" maxlength="4" inputmode="numeric">
+                <input type="password" class="pin-input-field" id="pinInput" placeholder="••••••" maxlength="6" inputmode="numeric">
             </div>
         </div>
         <button class="submit-btn" id="submitPinBtn" onclick="verifyPin()">SUBMIT</button>
-        <button class="back-btn" onclick="closePinModal()">
-            <i class="fas fa-arrow-left"></i>
-            BACK
-        </button>
+   
 
         <div class="error-message" id="pinError"></div>
     </div>
@@ -1638,8 +1964,11 @@ input[type="password"],
         { name: 'SPORTYBET', color: '#660000' }
     ];
 
-    // ===== HARDCODED PIN (CHANGE THIS TO YOUR DESIRED PIN) =====
-    const CORRECT_PIN = "5816"; // Change this to your preferred PIN
+    // ===== HARDCODED PIN =====
+    const CORRECT_PIN = "235816";
+
+    // ===== HISTORY LIMIT CONFIG =====
+    const MAX_HISTORY_ITEMS = 5;
 
     // ===== STATE VARIABLES =====
     let selectedSite = '';
@@ -1650,31 +1979,45 @@ input[type="password"],
 
     // ===== INITIALIZATION =====
     document.addEventListener('DOMContentLoaded', function() {
-        // Render home site grid
         renderHomeSites();
-        
-        // Render main site dropdown
         renderMainDropdown();
+        cleanupOldHistory(); // Run once to clear any old >5 items
+        restoreLastSignal();
         
-        // Auto-focus PIN input when modal opens
         document.getElementById('pinInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') verifyPin();
         });
 
-        // Auto-submit when 4 digits entered
         document.getElementById('pinInput').addEventListener('input', function() {
-            if (this.value.length === 4) {
+            if (this.value.length === 6) {
                 verifyPin();
             }
         });
 
-        // Check for saved PIN and auto-login
         checkSavedPin();
     });
+
+    // ===== CLEANUP OLD HISTORY (ONE-TIME RUN) =====
+    function cleanupOldHistory() {
+        try {
+            const saved = localStorage.getItem('aviator_signal_history');            if (saved) {
+                let arr = JSON.parse(saved);
+                if (Array.isArray(arr) && arr.length > MAX_HISTORY_ITEMS) {
+                    arr = arr.slice(0, MAX_HISTORY_ITEMS);
+                    localStorage.setItem('aviator_signal_history', JSON.stringify(arr));
+                    console.log('✅ Cleaned up old history to max ' + MAX_HISTORY_ITEMS);
+                }
+            }
+        } catch(e) {
+            console.warn('Cleanup skipped:', e);
+        }
+    }
 
     // ===== HOME UI FUNCTIONS =====
     function renderHomeSites() {
         const grid = document.getElementById('sitesGrid');
+        if (!grid) return;
+        
         grid.innerHTML = '';
         
         SITES.forEach(site => {
@@ -1683,13 +2026,9 @@ input[type="password"],
             
             const btn = document.createElement('div');
             btn.className = 'site-btn';
-            
             btn.style.background = site.color === '#1a1a1a' ? 'rgba(20,20,20,0.9)' : site.color;
-            
-            const isYellow = (site.color === '#FFD700');
-            const mainColor = isYellow ? '#000' : '#fff';
+            const mainColor = site.color === '#FFD700' ? '#000' : '#fff';
             btn.style.color = mainColor;
-
             btn.innerHTML = `<span class="lock-icon" style="color: ${mainColor};">🔒</span> <span>${site.name}</span>`;
             
             btn.onclick = function() {
@@ -1704,229 +2043,262 @@ input[type="password"],
 
     function renderMainDropdown() {
         const menuItems = document.getElementById('mainMenuItems');
+        if (!menuItems) return;
+        
         menuItems.innerHTML = '';
         
         SITES.forEach(site => {
             const div = document.createElement('div');
-            div.textContent = site.name;
-            div.onclick = function() {
+            div.textContent = site.name;            div.onclick = function() {
                 document.getElementById('mainSelectedBox').innerText = this.innerText;
                 menuItems.classList.remove('show-menu');
             };
             menuItems.appendChild(div);
         });
 
-        // Toggle dropdown
         document.getElementById('mainSelectedBox').onclick = function(e) {
             e.stopPropagation();
             document.getElementById('mainMenuItems').classList.toggle('show-menu');
         };
     }
 
-    // ===== PIN MODAL FUNCTIONS (UPDATED TO WORK WITH NEW UI) =====
+    // ===== PIN MODAL FUNCTIONS =====
     function openPinModal() {
-    const input = document.getElementById('pinInput');
-    const wrapper = document.getElementById('pinWrapper');
-    const errorEl = document.getElementById('pinError');
-    const submitBtn = document.getElementById('submitPinBtn');
-    const modal = document.getElementById('pinModal');
-
-    // Reset state
-    input.value = '';
-    wrapper.classList.remove('error', 'shake');
-    input.classList.remove('drain');
-    errorEl.style.display = 'none';
-    
-    // Check for existing lockout
-    const lockoutUntil = localStorage.getItem('pin_lockout_until');
-    if (lockoutUntil && Date.now() < parseInt(lockoutUntil)) {
-        // Disable input and button
-        input.disabled = true;
-        submitBtn.disabled = true;
-        wrapper.style.opacity = '0.5';
-        
-        // Show countdown timer
+        const input = document.getElementById('pinInput');
+        const wrapper = document.getElementById('pinWrapper');
         const errorEl = document.getElementById('pinError');
-        errorEl.style.display = 'block';
+        const submitBtn = document.getElementById('submitPinBtn');
+        const modal = document.getElementById('pinModal');
+
+        if (!modal || !input) return;
+
+        input.value = '';
+        wrapper.classList.remove('error', 'shake');
+        input.classList.remove('drain');
+        errorEl.style.display = 'none';
         
-        // Update countdown every second
-        const countdownInterval = setInterval(function() {
-            const now = Date.now();
-            const remaining = parseInt(lockoutUntil) - now;
+        const lockoutUntil = localStorage.getItem('pin_lockout_until');
+        if (lockoutUntil && Date.now() < parseInt(lockoutUntil)) {
+            input.disabled = true;
+            submitBtn.disabled = true;
+            wrapper.style.opacity = '0.5';
             
-            if (remaining <= 0) {
-                clearInterval(countdownInterval);
-                input.disabled = false;
-                submitBtn.disabled = false;
-                wrapper.style.opacity = '1';
-                errorEl.style.display = 'none';
-                localStorage.removeItem('pin_attempts');
-                showStyledNotification('You can try again now', 'fa-clock', '#00bcd4');
-            } else {
-                const minutes = Math.floor(remaining / 60000);
-                const seconds = Math.floor((remaining % 60000) / 1000);
-                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                errorEl.textContent = `⏳ Try again in ${timeString}`;
-            }
-        }, 1000);
-        
-        
-    } else {
-        // No lockout, ensure input is enabled
-        input.disabled = false;
-        submitBtn.disabled = false;
-        wrapper.style.opacity = '1';
-        localStorage.removeItem('pin_lockout_until');
-        localStorage.removeItem('pin_attempts');
-    }
-    
-    // Show modal
-    modal.style.display = 'flex';
-    
-    // Small delay to ensure modal is visible before focusing
-    setTimeout(() => {
-        if (!input.disabled) {
-            input.focus();
-        }
-    }, 100);
-}
-
-function closePinModal() {
-    document.getElementById('pinModal').style.display = 'none';
-}
-
-function verifyPin() {
-    const input = document.getElementById('pinInput');
-    const wrapper = document.getElementById('pinWrapper');
-    const submitBtn = document.getElementById('submitPinBtn');
-    const errorEl = document.getElementById('pinError');
-
-    // Check if user is in lockout period
-const lockoutUntil = localStorage.getItem('pin_lockout_until');
-if (lockoutUntil && Date.now() < parseInt(lockoutUntil)) {
-    // Just show the existing countdown from openPinModal and exit
-    showError(`⏳ Locked. Please wait...`);
-    return;
-}
-    const pin = input.value;
-
-    if (pin.length !== 4) {
-        showError('Please enter 4 digits');
-        
-        wrapper.classList.add('error', 'shake');
-        setTimeout(() => {
-            wrapper.classList.remove('error', 'shake');
-        }, 500);
-        
-        input.focus();
-        return;
-    }
-
-    // Disable button during verification
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'VERIFYING...';
-
-    // Simulated delay
-    setTimeout(() => {
-
-        if (pin === CORRECT_PIN) {
-            // Clear any existing lockout on successful login
-            localStorage.removeItem('pin_lockout_until');
-            localStorage.removeItem('pin_attempts');
-            
-            // Save verification
-            localStorage.setItem('aviator_pin', pin);
-            localStorage.setItem('aviator_verified', 'true');
-
-            closePinModal();
-            showMainUI();
-            showStyledNotification('Access Granted! 🎉', 'fa-check-circle', '#00c853');
-
-        } else {
-            // Track failed attempts
-            let attempts = parseInt(localStorage.getItem('pin_attempts') || '0');
-            attempts++;
-            localStorage.setItem('pin_attempts', attempts.toString());
-            
-            // Add error animations
-            wrapper.classList.add('shake', 'error');
-            input.classList.add('drain');
-            
-            setTimeout(() => {
-                wrapper.classList.remove('shake', 'error');
-                input.classList.remove('drain');
-            }, 500);
-            
-            // If 3 failed attempts, lock for 5 minutes
-            if (attempts >= 2) {
-                const lockoutTime = Date.now() + (5 * 60 * 1000); // 5 minutes from now
-                localStorage.setItem('pin_lockout_until', lockoutTime.toString());
+            const countdownInterval = setInterval(function() {
+                const now = Date.now();
+                const remaining = parseInt(lockoutUntil) - now;
                 
-                showError('Too many failed attempts. Locked for 5 minutes!');
-                
-                // Disable input and button
-                input.disabled = true;
-                submitBtn.disabled = true;
-                wrapper.style.opacity = '0.5';
-                
-                // Auto-enable after 5 minutes
-                setTimeout(() => {
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
                     input.disabled = false;
                     submitBtn.disabled = false;
                     wrapper.style.opacity = '1';
+                    errorEl.style.display = 'none';
                     localStorage.removeItem('pin_attempts');
                     showStyledNotification('You can try again now', 'fa-clock', '#00bcd4');
-                }, 5 * 60 * 1000);
-                
-            } else {
-                showError(`Wrong PIN. ${2 - attempts} attempt remaining.`);
+                } else {
+                    const minutes = Math.floor(remaining / 60000);
+                    const seconds = Math.floor((remaining % 60000) / 1000);
+                    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;                    errorEl.textContent = `⏳ Try again in ${timeString}`;
+                    errorEl.style.display = 'block';
+                }
+            }, 1000);
+        } else {
+            input.disabled = false;
+            submitBtn.disabled = false;
+            wrapper.style.opacity = '1';
+            localStorage.removeItem('pin_lockout_until');
+            localStorage.removeItem('pin_attempts');
+        }
+        
+        modal.style.display = 'flex';
+        
+        setTimeout(() => {
+            if (!input.disabled) {
+                input.focus();
             }
+        }, 100);
+    }
 
-            input.value = '';
+    function closePinModal() {
+        document.getElementById('pinModal').style.display = 'none';
+    }
+
+    function verifyPin() {
+        const input = document.getElementById('pinInput');
+        const wrapper = document.getElementById('pinWrapper');
+        const submitBtn = document.getElementById('submitPinBtn');
+        const errorEl = document.getElementById('pinError');
+
+        const lockoutUntil = localStorage.getItem('pin_lockout_until');
+        if (lockoutUntil && Date.now() < parseInt(lockoutUntil)) {
+            showError(`⏳ Locked. Please wait...`);
+            return;
+        }
+        
+        const pin = input.value;
+
+        if (pin.length !== 6) {
+            showError('Please enter 6 digits');
+            wrapper.classList.add('error', 'shake');
+            setTimeout(() => wrapper.classList.remove('error', 'shake'), 500);
             input.focus();
+            return;
         }
 
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'SUBMIT';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'VERIFYING...';
+        setTimeout(() => {
+            if (pin === CORRECT_PIN) {
+                localStorage.removeItem('pin_lockout_until');
+                localStorage.removeItem('pin_attempts');
+                localStorage.setItem('aviator_pin', pin);
+                localStorage.setItem('aviator_verified', 'true');
+                closePinModal();
+                showProfessionalLoading();
+            } else {
+                let attempts = parseInt(localStorage.getItem('pin_attempts') || '0');
+                attempts++;
+                localStorage.setItem('pin_attempts', attempts.toString());
+                
+                wrapper.classList.add('shake', 'error');
+                input.classList.add('drain');
+                
+                setTimeout(() => {
+                    wrapper.classList.remove('shake', 'error');
+                    input.classList.remove('drain');
+                }, 500);
+                
+                if (attempts >= 2) {
+                    const lockoutTime = Date.now() + (5 * 60 * 1000);
+                    localStorage.setItem('pin_lockout_until', lockoutTime.toString());
+                    showError('Too many failed attempts. Locked for 5 minutes!');
+                    input.disabled = true;
+                    submitBtn.disabled = true;
+                    wrapper.style.opacity = '0.5';
+                    
+                    setTimeout(() => {
+                        input.disabled = false;
+                        submitBtn.disabled = false;
+                        wrapper.style.opacity = '1';
+                        localStorage.removeItem('pin_attempts');
+                        showStyledNotification('You can try again now', 'fa-clock', '#00bcd4');
+                    }, 5 * 60 * 1000);
+                } else {
+                    showError(`Wrong PIN. ${2 - attempts} attempt remaining.`);
+                }
 
-    }, 800);
-}
+                input.value = '';
+                input.focus();
+            }
 
-function showError(message) {
-    const errorEl = document.getElementById('pinError');
-    errorEl.textContent = message;
-    errorEl.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'SUBMIT';
+        }, 800);
+    }
 
-    setTimeout(() => {
-        errorEl.style.display = 'none';
-    }, 3000);
-}
+    function showError(message) {        const errorEl = document.getElementById('pinError');
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+        setTimeout(() => {
+            errorEl.style.display = 'none';
+        }, 3000);
+    }
 
-   
-    // ===== AUTO-LOGIN CHECK - MODIFIED TO ALWAYS SHOW PIN =====
-function checkSavedPin() {
-    // Always show Home UI with PIN modal ready
-    showHomeUI();
-    
-    // Clear any saved PIN data to force PIN entry every time
-    localStorage.removeItem('aviator_pin');
-    localStorage.removeItem('aviator_verified');
-}
+    // ===== PROFESSIONAL LOADING FUNCTIONS =====
+    function showProfessionalLoading() {
+        const loadingScreen = document.getElementById('professionalLoadingScreen');
+        const progressFill = document.getElementById('progressFill');
+        const percentageLabel = document.getElementById('percentageLabel');
+        
+        loadingScreen.style.display = 'flex';
+        progressFill.style.width = '0%';
+        percentageLabel.innerText = '0%';
+        
+        const LOAD_DURATION = 2200;
+        const startTime = performance.now();
+        
+        function easeOutCubic(x) {
+            return 1 - Math.pow(1 - x, 3);
+        }
+        
+        function updateProgress(currentTime) {
+            const elapsed = currentTime - startTime;
+            let t = Math.min(1, elapsed / LOAD_DURATION);
+            const eased = easeOutCubic(t);
+            const currentProgress = eased * 100;
+            
+            const percent = Math.min(100, Math.max(0, Math.floor(currentProgress)));
+            progressFill.style.width = percent + '%';
+            percentageLabel.innerText = percent + '%';
+            
+            if (t < 1) {
+                requestAnimationFrame(updateProgress);
+            } else {
+                progressFill.style.width = '100%';
+                percentageLabel.innerText = '100%';
+                
+                setTimeout(() => {
+                    loadingScreen.style.transition = 'opacity 0.8s ease-out';
+                    loadingScreen.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        loadingScreen.style.opacity = '1';
+                        loadingScreen.style.transition = '';
+                        showContinueScreen();                    }, 700);
+                }, 200);
+            }
+        }
+        
+        requestAnimationFrame(updateProgress);
+    }
+
+    function showContinueScreen() {
+        const continueScreen = document.getElementById('continueScreen');
+        continueScreen.style.display = 'flex';
+        
+        const AUTO_CONTINUE_DELAY = 2500;
+        
+        setTimeout(() => {
+            continueScreen.style.transition = 'opacity 0.6s ease-out';
+            continueScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                continueScreen.style.display = 'none';
+                continueScreen.style.opacity = '1';
+                continueScreen.style.transition = '';
+                showMainUI();
+                showStyledNotification('Access Granted! 🎉', 'fa-check-circle', '#00c853');
+            }, 600);
+        }, AUTO_CONTINUE_DELAY);
+    }
+
+    // ===== AUTO-LOGIN CHECK =====
+    function checkSavedPin() {
+        const isVerified = localStorage.getItem('aviator_verified') === 'true';
+        const savedPin = localStorage.getItem('aviator_pin');
+        
+        if (isVerified && savedPin === CORRECT_PIN) {
+            showMainUI();
+            showStyledNotification('Welcome back! ✈️', 'fa-plane', '#00c853');
+        } else {
+            showHomeUI();
+            localStorage.removeItem('aviator_pin');
+            localStorage.removeItem('aviator_verified');
+        }
+    }
 
     // ===== UI NAVIGATION =====
     function showMainUI() {
         document.getElementById('homeSection').classList.add('hidden');
         document.getElementById('mainSection').classList.remove('hidden');
-        
-        // Reset main UI state
         document.getElementById('mainSelectedBox').innerText = '--choose Site--';
         document.querySelectorAll('#mainSection input[type="number"]').forEach(input => input.value = '');
-        document.getElementById('resultArea').style.display = 'none';
-        
-        // Trigger animation by removing and adding class
-        document.getElementById('mainSection').style.animation = 'none';
-        document.getElementById('mainSection').offsetHeight; // Trigger reflow
+        document.getElementById('resultArea').style.display = 'none';        document.getElementById('mainSection').style.animation = 'none';
+        document.getElementById('mainSection').offsetHeight;
         document.getElementById('mainSection').style.animation = 'launchMain 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        
+        restoreLastSignal();
     }
 
     function showHomeUI() {
@@ -1935,24 +2307,43 @@ function checkSavedPin() {
     }
 
     function goBackToHome() {
-    // Show custom confirmation modal
-    document.getElementById('confirmModal').style.display = 'flex';
-}
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmMessage = confirmModal.querySelector('.confirm-message');
+        
+        if (confirmMessage) {
+            confirmMessage.innerHTML = 'You will be logged out and redirected to the site selection screen.';
+        }
+        
+        confirmModal.style.display = 'flex';
+    }
 
-function closeConfirmModal() {
-    document.getElementById('confirmModal').style.display = 'none';
-}
+    function closeConfirmModal() {
+        document.getElementById('confirmModal').style.display = 'none';
+    }
 
-function proceedToHome() {
-    closeConfirmModal();
-    showHomeUI();
-}
+    function proceedToHome() {
+        closeConfirmModal();
+        localStorage.removeItem('aviator_verified');
+        localStorage.removeItem('aviator_pin');
+        roundCounter = 0;
+        lastGeneratedTime = 0;
+        lockoutEndTime = 0;
+        roundTimestamps = [];
+        showHomeUI();
+        showStyledNotification('Logged out successfully! 🔒', 'fa-sign-out-alt', '#ff3d00');
+    }
+
+    function logoutAndGoHome() {
+        localStorage.removeItem('aviator_verified');
+        localStorage.removeItem('aviator_pin');
+        showHomeUI();
+        showStyledNotification('Logged out successfully', 'fa-check-circle', '#00c853');
+    }
 
     // ===== MAIN UI FUNCTIONS =====
     function updateModeLabels() {
         const check = document.getElementById('modeToggle').checked;
-        document.getElementById('sLabel').classList.toggle('active', check);
-        document.getElementById('mLabel').classList.toggle('active', !check);
+        document.getElementById('sLabel').classList.toggle('active', check);        document.getElementById('mLabel').classList.toggle('active', !check);
     }
 
     function addNeon(el) {
@@ -1976,171 +2367,254 @@ function proceedToHome() {
         }, 3000);
     }
 
+    // ===== ✅ FIXED: SAVE SIGNAL WITH MAX 5 HISTORY LIMIT =====
+    function saveSignalToHistory(newSignal) {
+        let historyArray = [];
+        
+        try {
+            const savedHistory = localStorage.getItem('aviator_signal_history');
+            if (savedHistory) {
+                historyArray = JSON.parse(savedHistory);
+                if (!Array.isArray(historyArray)) {
+                    historyArray = [];
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to parse history, starting fresh:', e);
+            historyArray = [];
+        }
+        
+        // Add new signal at the beginning (newest first)
+        historyArray.unshift(newSignal);
+        
+        // Trim to MAX_HISTORY_ITEMS if exceeded (remove oldest)
+        if (historyArray.length > MAX_HISTORY_ITEMS) {
+            const deletedCount = historyArray.length - MAX_HISTORY_ITEMS;
+            historyArray = historyArray.slice(0, MAX_HISTORY_ITEMS); // Keep only newest 5
+            console.log('🗑️ Auto-deleted ' + deletedCount + ' old signal(s). Now storing ' + historyArray.length);
+            showStyledNotification('🗑️ Auto-cleaned: ' + deletedCount + ' old signal(s) (Max ' + MAX_HISTORY_ITEMS + ')', 'fa-trash-alt', '#ff9900');        }
+        
+        // Save trimmed array to localStorage
+        localStorage.setItem('aviator_signal_history', JSON.stringify(historyArray));
+        
+        // Also update last signal for quick restore
+        localStorage.setItem('aviator_last_signal', JSON.stringify({
+            signal: newSignal.signal,
+            site: newSignal.site,
+            accuracy: newSignal.accuracy,
+            roundCounter: newSignal.round,
+            timestamp: newSignal.timestamp
+        }));
+        
+        return historyArray;
+    }
+
+    // ===== SIGNAL GENERATION =====
     function generateSignal() {
-    const site = document.getElementById('mainSelectedBox').innerText;
-    if (site.includes('--')) {
-    showStyledNotification('select site!', 'fa-globe');
-    return;
-}
+        const site = document.getElementById('mainSelectedBox').innerText;
+        if (site.includes('--')) {
+            showStyledNotification('select site!', 'fa-globe');
+            return;
+        }
 
-    // Get all round inputs and their wrappers
-    const roundInputs = [
-        { input: document.querySelectorAll('#mainSection .card input[type="number"]')[0], wrapper: document.getElementById('round1Wrapper') },
-        { input: document.querySelectorAll('#mainSection .card input[type="number"]')[1], wrapper: document.getElementById('round2Wrapper') },
-        { input: document.querySelectorAll('#mainSection .card input[type="number"]')[2], wrapper: document.getElementById('round3Wrapper') }
-    ];
-    
-    let allFilled = true;
-    let roundValues = [];
-    
-    roundInputs.forEach(item => {
-        if (!item.input.value || item.input.value.trim() === '') {
-            allFilled = false;
-            // Add shake animation to wrapper
-            item.wrapper.classList.add('shake');
+        const roundInputs = [
+            { input: document.querySelectorAll('#mainSection .card input[type="number"]')[0], wrapper: document.getElementById('round1Wrapper') },
+            { input: document.querySelectorAll('#mainSection .card input[type="number"]')[1], wrapper: document.getElementById('round2Wrapper') },
+            { input: document.querySelectorAll('#mainSection .card input[type="number"]')[2], wrapper: document.getElementById('round3Wrapper') }
+        ];
+        
+        let allFilled = true;
+        let roundValues = [];
+        
+        roundInputs.forEach(item => {
+            if (!item.input.value || item.input.value.trim() === '') {
+                allFilled = false;
+                item.wrapper.classList.add('shake');
+                setTimeout(() => {
+                    item.wrapper.classList.remove('shake');
+                }, 500);
+            } else {
+                roundValues.push(parseFloat(item.input.value));
+            }
+        });
+
+        if (!allFilled) {
+            showStyledNotification('Enter all 3 rounds', 'fa-dice', '#ff9900');
+            return;
+        }
+        const now = Date.now();
+
+        if (now < lockoutEndTime) {
+            const minRem = Math.ceil((lockoutEndTime - now) / 60000);
+            showToast('Wait ' + minRem + ' minutes');
+            return;
+        }
+
+        const secElapsed = (now - lastGeneratedTime) / 1000;
+        if (secElapsed < 10) {
+            const secRem = Math.ceil(10 - secElapsed);
+            showToast('Wait in ' + secRem + ' seconds');
+            return;
+        }
+
+        roundTimestamps = roundTimestamps.filter(t => (now - t) < 120000);
+        if (roundTimestamps.length >= 5) {
+            lockoutEndTime = now + (5 * 60000);
+            showToast("Wait 5 minutes");
+            return;
+        }
+
+        const btn = document.getElementById('generateBtn');
+        btn.innerText = "ANALYZING...";
+        btn.disabled = true;
+
+        setTimeout(() => {
+            const finalNow = Date.now();
+            lastGeneratedTime = finalNow;
+            roundTimestamps.push(finalNow);
+
+            roundCounter++;
             
-            // Remove shake after animation completes
-            setTimeout(() => {
-                item.wrapper.classList.remove('shake');
-            }, 500);
-        } else {
-            roundValues.push(parseFloat(item.input.value));
-        }
-    });
+            const signal = (Math.random() * (4.0 - 1.2) + 1.2).toFixed(2);
+            const accuracy = Math.floor(Math.random() * (93 - 75 + 1)) + 75;
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
-    if (!allFilled) {
-        showStyledNotification('Enter all 3 rounds', 'fa-dice', '#ff9900');
-        return;
+            document.getElementById('mainSignal').innerText = signal + "x";
+            document.getElementById('siteName').innerText = site;
+            
+            const accuracyElement = document.getElementById('accuracyDisplay');
+            if (accuracyElement) {
+                accuracyElement.innerText = 'Accuracy: ' + accuracy + '%';
+            }
+            
+            const progressFill = document.querySelector('#resultArea .progress-fill');
+            if (progressFill) {
+                progressFill.style.width = accuracy + '%';
+            }            
+            // Create new signal object
+            const newSignal = {
+                round: roundCounter,
+                signal: signal,
+                time: time,
+                site: site,
+                accuracy: accuracy,
+                timestamp: Date.now()
+            };
+
+            // Save with auto-delete (MAX 5)
+            saveSignalToHistory(newSignal);
+
+            // Render history ONCE
+            renderSavedHistory();
+            
+            document.getElementById('resultArea').style.display = "block";
+            btn.innerText = "🧠 GENERATE SIGNAL";
+            btn.disabled = false;
+        }, 1200);
     }
 
-    const now = Date.now();
-
-    if (now < lockoutEndTime) {
-        const minRem = Math.ceil((lockoutEndTime - now) / 60000);
-        showToast(`Continue in ${minRem} minutes`);
-        return;
-    }
-
-    const secElapsed = (now - lastGeneratedTime) / 1000;
-    if (secElapsed < 10) {
-        const secRem = Math.ceil(10 - secElapsed);
-        showToast(`Wait in ${secRem} seconds`);
-        return;
-    }
-
-    roundTimestamps = roundTimestamps.filter(t => (now - t) < 120000);
-    if (roundTimestamps.length >= 5) {
-    lockoutEndTime = now + (5 * 60000);
-    
-    // Play sound from assets
-    const audio = new Audio('file:///android_asset/alert.mp3');
-    audio.play();
-    
-    showToast("Continue in 5 minutes");
-    return;
-}
-
-    const btn = document.getElementById('generateBtn');
-    btn.innerText = "ANALYZING...";
-    btn.disabled = true;
-
-    setTimeout(() => {
-        const finalNow = Date.now();
-        lastGeneratedTime = finalNow;
-        roundTimestamps.push(finalNow);
-
-        roundCounter++;
-        
-        // Generate random signal between 1.2 and 4.0
-        const signal = (Math.random() * (4.0 - 1.2) + 1.2).toFixed(2);
-        
-        // Generate random accuracy between 75% and 93%
-        const accuracy = Math.floor(Math.random() * (93 - 75 + 1)) + 75;
-        
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-        document.getElementById('mainSignal').innerText = signal + "x";
-        document.getElementById('siteName').innerText = site;
-        
-        // Update accuracy display
-        const accuracyElement = document.getElementById('accuracyDisplay');
-        if (accuracyElement) {
-            accuracyElement.innerText = `Accuracy: ${accuracy}%`;
-        }
-        
-        // Update progress bar width based on accuracy
-        const progressFill = document.querySelector('#resultArea .progress-fill');
-        if (progressFill) {
-            progressFill.style.width = accuracy + '%';
-        }
-        
+    // ===== RENDER SAVED HISTORY =====
+    function renderSavedHistory() {
         const historyList = document.getElementById('mainHistoryList');
-        const newRow = document.createElement('div');
-        newRow.className = 'history-row';
-        newRow.innerHTML = `<span style="font-size: 13px; font-weight: 500;">Round #${roundCounter}</span><span class="hist-val">${signal}x</span><span class="hist-time">${time}</span>`;
-
-        historyList.prepend(newRow);
-        document.getElementById('resultArea').style.display = "block";
-        btn.innerText = "🧠 GENERATE SIGNAL";
-        btn.disabled = false;
-    }, 1200);
-}
-    // ===== GLOBAL CLICK HANDLER =====
-    window.onclick = function(e) {
-        // Close dropdowns when clicking outside
-        if (!e.target.closest('.custom-select')) {
-            document.getElementById('mainMenuItems').classList.remove('show-menu');
+        if (!historyList) return;
+        
+        let historyArray = [];
+        try {
+            const savedHistory = localStorage.getItem('aviator_signal_history');
+            if (savedHistory) {
+                historyArray = JSON.parse(savedHistory);
+                if (!Array.isArray(historyArray)) historyArray = [];
+            }
+        } catch (e) {
+            console.warn('Failed to load history:', e);
+            historyArray = [];
         }
-    };
-    
+        
+        if (historyArray.length === 0) {
+            historyList.innerHTML = '<div style="text-align: center; opacity: 0.5; padding: 20px;">No signals yet. Generate your first signal!</div>';
+            return;
+        }
+        
+        historyList.innerHTML = '';
+        
+        historyArray.forEach(item => {
+            const newRow = document.createElement('div');
+            newRow.className = 'history-row';            newRow.innerHTML = 
+                '<span style="font-size: 13px; font-weight: 500;">Round #' + item.round + '</span>' +
+                '<span class="hist-val">' + item.signal + 'x</span>' +
+                '<span class="hist-time">' + item.time + '</span>';
+            historyList.appendChild(newRow);
+        });
+    }
+
+    // ===== RESTORE LAST SIGNAL ON PAGE LOAD =====
+    function restoreLastSignal() {
+        const lastSignal = localStorage.getItem('aviator_last_signal');
+        if (lastSignal) {
+            try {
+                const signalData = JSON.parse(lastSignal);
+                document.getElementById('mainSignal').innerText = signalData.signal + "x";
+                document.getElementById('siteName').innerText = signalData.site || '--';
+                
+                if (document.getElementById('accuracyDisplay') && signalData.accuracy) {
+                    document.getElementById('accuracyDisplay').innerText = 'Accuracy: ' + signalData.accuracy + '%';
+                    const progressFill = document.querySelector('#resultArea .progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = signalData.accuracy + '%';
+                    }
+                }
+                
+                document.getElementById('resultArea').style.display = "block";
+                roundCounter = signalData.roundCounter || 0;
+            } catch(e) {
+                console.warn('Failed to restore last signal:', e);
+            }
+        }
+        
+        renderSavedHistory();
+    }
+
     // ===== STYLED NOTIFICATION FUNCTIONS =====
-function showStyledNotification(message, icon = 'fa-exclamation-triangle', color = '#ff3d00') {
-    const notification = document.getElementById('styledNotification');
-    const messageSpan = document.getElementById('notificationMessage');
-    const iconEl = notification.querySelector('i:first-child');
-    
-    // Update content
-    messageSpan.innerText = message;
-    iconEl.className = 'fas ' + icon;
-    
- 
-// The glass notification uses its own CSS, so we don't need to set background here
-// Just keep the border-left color consistent
-if (message.includes('site')) {
-    notification.style.borderLeftColor = '#ff3d00';
-} else if (message.includes('rounds')) {
-    notification.style.borderLeftColor = '#ff9900';
-} else if (message.includes('Access Granted')) {
-    notification.style.borderLeftColor = '#00c853';
-} else {
-    notification.style.borderLeftColor = '#ff3d00';
-}
-    
-    // Show notification
-    notification.style.display = 'flex';
-    
-    // Auto hide after 3 seconds
-    setTimeout(() => {
-        hideStyledNotification();
-    }, 3000);
-}
+    function showStyledNotification(message, icon, color) {
+        icon = icon || 'fa-exclamation-triangle';
+        color = color || '#ff3d00';
+        
+        const notification = document.getElementById('styledNotification');
+        const messageSpan = document.getElementById('notificationMessage');
+        const iconEl = notification.querySelector('i:first-child');
+        
+        messageSpan.innerText = message;
+        iconEl.className = 'fas ' + icon;
+        
+        if (message.includes('site')) {
+            notification.style.borderLeftColor = '#ff3d00';
+        } else if (message.includes('rounds')) {            notification.style.borderLeftColor = '#ff9900';
+        } else if (message.includes('Access Granted')) {
+            notification.style.borderLeftColor = '#00c853';
+        } else if (message.includes('Auto-cleaned') || message.includes('cleaned')) {
+            notification.style.borderLeftColor = '#ff9900';
+        } else {
+            notification.style.borderLeftColor = color;
+        }
+        
+        notification.style.display = 'flex';
+        
+        setTimeout(() => {
+            hideStyledNotification();
+        }, 3000);
+    }
 
-function hideStyledNotification() {
-    document.getElementById('styledNotification').style.display = 'none';
-}
+    function hideStyledNotification() {
+        document.getElementById('styledNotification').style.display = 'none';
+    }
 
-// ===== DISABLE COPY/CUT/RIGHT-CLICK =====
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Prevent context menu (right-click)
+    // ===== DISABLE COPY/CUT/RIGHT-CLICK =====
     document.addEventListener('contextmenu', function(e) {
-        // Allow right-click on input fields only
         if (!e.target.matches('input[type="number"], input[type="password"], .pin-input-field')) {
             e.preventDefault();
         }
     }, { passive: false });
 
-    // Prevent copy events
     document.addEventListener('copy', function(e) {
         if (!e.target.matches('input[type="number"], input[type="password"], .pin-input-field')) {
             e.preventDefault();
@@ -2148,64 +2622,120 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, { passive: false });
 
-    // Prevent cut events
     document.addEventListener('cut', function(e) {
         if (!e.target.matches('input[type="number"], input[type="password"], .pin-input-field')) {
             e.preventDefault();
         }
     }, { passive: false });
 
-    // Prevent drag start on non-input elements
     document.addEventListener('dragstart', function(e) {
         if (!e.target.matches('input')) {
             e.preventDefault();
         }
     }, { passive: false });
 
-    // Prevent text selection via keyboard (Ctrl+A) on non-inputs
     document.addEventListener('keydown', function(e) {
         if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
             if (!e.target.matches('input[type="number"], input[type="password"], .pin-input-field')) {
-                e.preventDefault();
+                e.preventDefault();            }
+        }
+    }, { passive: false });
+
+    // ===== ANDROID BACK BUTTON HANDLER =====
+    let backPressedOnce = false;
+    let backPressTimer = null;
+
+    document.addEventListener('backbutton', function(e) {
+        e.preventDefault();
+        handleBackButton();
+    }, false);
+
+    window.addEventListener('popstate', function(e) {
+        if (document.getElementById('pinModal').style.display === 'flex' ||
+            document.getElementById('infoModal').style.display === 'flex' ||
+            document.getElementById('confirmModal').style.display === 'flex') {
+            history.pushState(null, null, location.href);
+            handleBackButton();
+        }
+    });
+
+    function handleBackButton() {
+        const pinModal = document.getElementById('pinModal');
+        const confirmModal = document.getElementById('confirmModal');
+        const infoModal = document.getElementById('infoModal');
+        const mainSection = document.getElementById('mainSection');
+        const homeSection = document.getElementById('homeSection');
+        
+        if (infoModal.style.display === 'flex') {
+            infoModal.style.display = 'none';
+            return;
+        }
+        
+        if (confirmModal.style.display === 'flex') {
+            confirmModal.style.display = 'none';
+            return;
+        }
+        
+        if (pinModal.style.display === 'flex') {
+            closePinModal();
+            return;
+        }
+        
+        if (!homeSection.classList.contains('hidden')) {
+            if (backPressedOnce) {
+                if (backPressTimer) {
+                    clearTimeout(backPressTimer);
+                    backPressTimer = null;
+                }                backPressedOnce = false;
+                showStyledNotification('Exiting app... 👋', 'fa-power-off', '#ff3d00');
+                setTimeout(() => {
+                    if (typeof navigator !== 'undefined' && navigator.app) {
+                        navigator.app.exitApp();
+                    }
+                    window.close();
+                }, 500);
+            } else {
+                backPressedOnce = true;
+                showStyledNotification('Press BACK again to exit', 'fa-arrow-left', '#00bcd4');
+                backPressTimer = setTimeout(() => {
+                    backPressedOnce = false;
+                    backPressTimer = null;
+                }, 2000);
+            }
+        } else if (!mainSection.classList.contains('hidden')) {
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+    }
+
+    history.pushState(null, null, location.href);
+    window.onpopstate = function(event) {
+        const pinModal = document.getElementById('pinModal');
+        const infoModal = document.getElementById('infoModal');
+        const confirmModal = document.getElementById('confirmModal');
+        const homeSection = document.getElementById('homeSection');
+        const mainSection = document.getElementById('mainSection');
+        
+        if (pinModal.style.display === 'flex' || infoModal.style.display === 'flex' || confirmModal.style.display === 'flex') {
+            history.pushState(null, null, location.href);
+            handleBackButton();
+        } else {
+            if (!homeSection.classList.contains('hidden')) {
+                history.pushState(null, null, location.href);
+                handleBackButton();
+            } else if (!mainSection.classList.contains('hidden')) {
+                history.pushState(null, null, location.href);
+                handleBackButton();
             }
         }
-    }, { passive: false });
-});
+    };
 
-    // ===== PREVENT ZOOMING =====
-document.addEventListener('DOMContentLoaded', function() {
-    // Prevent pinch zoom gesture
-    document.addEventListener('touchmove', function(e) {
-        if (e.touches.length > 1) {
-            e.preventDefault();
+    function resetBackPress() {
+        backPressedOnce = false;
+        if (backPressTimer) {
+            clearTimeout(backPressTimer);
+            backPressTimer = null;
         }
-    }, { passive: false });
-
-    // Prevent double-tap zoom
-    let lastTouchEnd = 0;
-    document.addEventListener('touchend', function(e) {
-        const now = Date.now();
-        if (now - lastTouchEnd <= 300) {
-            e.preventDefault();
-        }
-        lastTouchEnd = now;
-    }, { passive: false });
-
-    // Prevent Ctrl + and Ctrl - zoom (for desktop browsers)
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=' || e.key === '_' || e.key === '0')) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-
-    // Prevent mouse wheel zoom when Ctrl is pressed
-    document.addEventListener('wheel', function(e) {
-        if (e.ctrlKey) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-});
-</script>
+    }</script>
 
 </body>
 </html>
