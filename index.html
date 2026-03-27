@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Firebase SDK - Compatible with plain HTML -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2739,7 +2742,98 @@ input[type="password"],
             clearTimeout(backPressTimer);
             backPressTimer = null;
         }
-    }</script>
+    }
+    // =============================================
+    // 🔥 FIREBASE DEVICE TRACKING (Brand + Model)
+    // =============================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyCJhhVELpKxLc8u5bP8rzaZTu6A3yIPBLU",
+        authDomain: "aviator-panel.firebaseapp.com",
+        databaseURL: "https://aviator-panel-default-rtdb.firebaseio.com",
+        projectId: "aviator-panel",
+        storageBucket: "aviator-panel.firebasestorage.app",
+        messagingSenderId: "727589836642",
+        appId: "1:727589836642:web:e0d36821496916d2abfe3b",
+        measurementId: "G-17B1Z1XQWY"
+    };
+
+    let database;
+    try {
+        const app = firebase.initializeApp(firebaseConfig);
+        database = firebase.database();
+        console.log('%c✅ Firebase connected - Device tracking active', 'color: lime; font-weight: bold');
+    } catch (e) {
+        console.warn('Firebase init failed');
+    }
+
+    // Simple device name extractor for Android WebView
+    function getDeviceInfo() {
+        const ua = navigator.userAgent || "Unknown";
+        let deviceName = "Unknown Device";
+
+        // Android WebView pattern (most common in your app)
+        if (/Android/i.test(ua)) {
+            const match = ua.match(/Android.*; ([^;)]+)/);
+            if (match && match[1]) {
+                deviceName = match[1].trim(); // e.g. "SM-A145F", "Redmi Note 12", etc.
+            }
+        } 
+        // iOS / iPhone
+        else if (/iPhone|iPad|iPod/i.test(ua)) {
+            deviceName = "iPhone / iPad";
+        }
+
+        return {
+            brandModel: deviceName,
+            platform: /Android/i.test(ua) ? "Android" : /iPhone|iPad/i.test(ua) ? "iOS" : "Web",
+            userAgent: ua.substring(0, 200), // shortened for safety
+            timestamp: new Date().toISOString()
+        };
+    }
+
+    // Track unique device (only once per device)
+    async function trackUniqueDevice() {
+        if (!database) return;
+
+        if (localStorage.getItem('aviator_device_tracked') === 'true') {
+            return; // already tracked
+        }
+
+        try {
+            const info = getDeviceInfo();
+
+            // 1. Increment total devices counter
+            const counterRef = database.ref('app_stats/total_devices');
+            await counterRef.transaction((current) => (current || 0) + 1);
+
+            // 2. Log full device details (this is what you want to see)
+            const devicesRef = database.ref('devices');
+            await devicesRef.push({
+                brandModel: info.brandModel,
+                platform: info.platform,
+                userAgent: info.userAgent,
+                installedAt: firebase.database.ServerValue.TIMESTAMP,
+                installDate: info.timestamp
+            });
+
+            // Mark device as tracked forever
+            localStorage.setItem('aviator_device_tracked', 'true');
+
+            console.log('%c📱 New device logged:', 'color:#00ff88; font-weight:bold', info.brandModel);
+        } catch (err) {
+            console.log('Device tracking skipped (offline)');
+        }
+    }
+
+    // Run when app starts
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... your existing code ...
+
+        trackUniqueDevice();   // ← Add this line
+    });
+    
+    
+    </script>
 
 </body>
 </html>
