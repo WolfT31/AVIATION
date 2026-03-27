@@ -1820,18 +1820,22 @@ input[type="password"],
         <div style="font-size: 0.6rem; color: var(--accent); margin-top: 5px; opacity: 0.8; font-weight: 700;">ENCRYPTED SESSION V12.0.5</div>
     </header>
 
-    <div class="stats-grid">
-        <div class="stat-card" style="animation-delay: 0s;">
-            <div class="stat-label">RELIABILITY</div>
-            <div class="stat-val">97%</div>
-        </div>
-        <div class="stat-card" style="animation-delay: -2s;">
-            <div class="stat-label">MULTIPLIER</div>
-            <div class="stat-val">12.5x</div>
-        </div>
+   <div class="stats-grid">
+    <div class="stat-card" style="animation-delay: 0s;">
+        <div class="stat-label">RELIABILITY</div>
+        <div class="stat-val">97%</div>
     </div>
+    <div class="stat-card" style="animation-delay: -2s;">
+        <div class="stat-label">MULTIPLIER</div>
+        <div class="stat-val">12.5x</div>
+    </div>
+</div>
 
-    <div class="sites-grid" id="sitesGrid"></div>
+<div class="sites-grid" id="sitesGrid"></div>
+
+<!-- GHOST TEXT - WHATSAPP NUMBER -->
+<div style="text-align: center; margin-top: 35px; opacity: 0.35; font-size: 11px; letter-spacing: 1px; font-family: monospace; color: #6b7a99; pointer-events: none;">
+    <i class="fab fa-whatsapp" style="margin-right: 5px; font-size: 10px;"></i> WhatsApp 255 747654905
 </div>
 
 <!-- PIN MODAL - UPDATED WITH NEW UI -->
@@ -2322,23 +2326,22 @@ input[type="password"],
     }
 
     function proceedToHome() {
-        closeConfirmModal();
-        localStorage.removeItem('aviator_verified');
-        localStorage.removeItem('aviator_pin');
-        roundCounter = 0;
-        lastGeneratedTime = 0;
-        lockoutEndTime = 0;
-        roundTimestamps = [];
-        showHomeUI();
-        showStyledNotification('Logged out successfully! 🔒', 'fa-sign-out-alt', '#ff3d00');
-    }
-
-    function logoutAndGoHome() {
-        localStorage.removeItem('aviator_verified');
-        localStorage.removeItem('aviator_pin');
-        showHomeUI();
-        showStyledNotification('Logged out successfully', 'fa-check-circle', '#00c853');
-    }
+    closeConfirmModal();
+    
+    // === LOGOUT + CLEAR HISTORY ===
+    localStorage.removeItem('aviator_verified');
+    localStorage.removeItem('aviator_pin');
+    localStorage.removeItem('aviator_signal_history');   // ← NEW
+    localStorage.removeItem('aviator_last_signal');      // ← NEW
+    
+    roundCounter = 0;
+    lastGeneratedTime = 0;
+    lockoutEndTime = 0;
+    roundTimestamps = [];
+    
+    showHomeUI();
+    showStyledNotification('Logged out successfully!', 'fa-sign-out-alt', '#ff3d00');
+}
 
     // ===== MAIN UI FUNCTIONS =====
     function updateModeLabels() {
